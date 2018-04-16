@@ -15,7 +15,7 @@ Citations are provided at the top of each application.
 
 ## Setup
 
-# MacOS
+### MacOS
 Once the file has been downloaded it will appear as a zip file.  You can unpack the folder by right clicking on it and using the archive manager, double clicking the file or using the command:
 
     unzip GenCoF.zip
@@ -29,7 +29,7 @@ See **Common Errors** if you at any point of opening it you are prompted with ""
 
 Once this is done, you are free to double click the file labeled GenCoF and begin filtering your samples!!
 
-# Linux
+### Linux
 Once the file has been downloaded it will appear as a zip file.  You can unpack the folder by right clicking on it and using the archive manager, double clicking the file and clicking the extract in the upper left corner or using the command:
 
     unzip GenCoF.zip
@@ -53,7 +53,7 @@ For large files(> 1GB) it may take significant time to run the Bowtie2 applicati
 Program specific output:
 * Sickle and Prinseq: Output a single file of fastq or fasta format (whichever specified).
 * Split: Outputs the amount of files specified in the program as input.
-* Bowtie2: Outputs a file that contains reads mapped to the reference and a file that contains reads unmapped to the reference database.
+* Bowtie2: Outputs two files: one file that contains reads mapped to the reference database and one file that contains reads unmapped to the reference database.
 * Join: Outputs a file of joined input files.
 
 The program Split outputs files to where the input file was. All other programs output files to the main folder GenCoF. 
