@@ -44,7 +44,7 @@ Once this is done, you are free to double click the file labeled GenCoF and begi
 ## Usage
 
 Running GenCoF is easy as all descriptions for each program option are labeled right next to the option itself. 
-Always run each application by starting at GenCoF and navigating to the appropriate application. If you are running on MacOS, the terminal that opens with the program is necessary as the program uses it to run the applications. If you would like to exit the program at any time you can do so by exiting the terminal. README's for each program are located within their respective program folders however they do not necessarily correspond well to the graphical user interface.
+Always run each application by starting at GenCoF and navigating to the appropriate application. If you are running on MacOS, the terminal that opens with the program is necessary as the program uses it to run the applications. If you would like to exit the program at any time such as a running process you can do so by exiting the terminal. README's for each program are located within their respective program folders however they do not necessarily correspond well to the graphical user interface.
 
 For large files(> 1GB) it may take significant time to run the Bowtie2 application so it is recommended to either thread the files depending on the amount of cores your computer has or to split the files up and join them back together once Bowtie2 has been run.
 
