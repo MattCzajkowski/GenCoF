@@ -1,12 +1,54 @@
-import functions, shlex, subprocess, sys, os
+import functions
+import shlex
+import subprocess
+import sys
+import os
 from tkinter import filedialog
 from tkinter import *
 
-#Requires Perl modules (all modules included with perl download) Data::Dumper, Getopt::Long, Pod::Usage, File::Path >= 2.07, Cwd,
-## FindBin and Python3 Tkinter
+##############################################################################
+# 
+# Run - Closes window and opens GenCoF main
+#
+# App - Sets the window and grid of the app
+#
+## Functions within App:
+## __init__ - Sets up the display of Prinseq's main interface through
+## buttons and labels
+##
+## MANDATORY - Sets up widgets for the mandatory options of App
+##
+## OUTPUT - Sets up widgets for the output options of App
+##
+## FILTER - Sets up widgets for the filtering options of App
+##
+## TRIM - Sets up widgets for the trimming options of App
+##
+## REFORMAT - Sets up widgets for the reformat options of App
+##
+## SUMMARY_STATISTIC - Sets up widgets for the summary statistic options of App
+##
+## FILE_TYPE - Sets up display of widgets depending on the file type selected
+##
+## OPTIONS - Sets up display of widgets depending on the widgets that the user
+## wants to be displayed
+##
+## Check_Options - Checks the widgets used and creates a string of options
+## that get inputted to terminal to run Prinseq
+##
+## browse_file_input1 - Lets user choose a file and puts the file path in a
+## variable
+##
+## browse_file_input2 - Lets user choose a second file and puts the file path
+## in a variable
+##
+## onFrameConfigure - Creates a scrollbar 
+# 
+# __name__ - Sets up base directory, builds App and sets up window size
+#
+##############################################################################
 
 
-##Closes window and opens window run
 def Run():
     root.destroy()
     if (sys.platform == 'linux'):
@@ -22,9 +64,7 @@ def Run():
 
 class App(Frame):
     def __init__(self, root):
-        ##Start to Create the grid build of GUI##
 
-        ##Sets up the frame of the window as well as adding a scrollbar
         Frame.__init__(self, root)
         self.canvas = Canvas(root, borderwidth=0, bg="white")
         self.frame = Frame(self.canvas, background="#ffffff")
@@ -39,20 +79,17 @@ class App(Frame):
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
 
-        ##Go To Build Mandatory Section
         self.MANDATORY()
         return
 
     def MANDATORY(self):
 
-        x = 0  #current row for grid
+        x = 0
 
-        ##Returns to run where you can select another module of the GUI
         self.run_butt = Button(self.frame, text="BACK", command=Run)
         self.run_butt.grid(row=x, column=0, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Title of Prinseq Portion of GUI##
         self.file1_title = Label(
             self.frame, text="Prinseq", font="Times 24 bold", bg="white").grid(
                 row=x,
@@ -63,7 +100,6 @@ class App(Frame):
                 sticky="we")
         x += 1
 
-        ##Citation for Prinseq
         self.fill_mandat = Label(
             self.frame,
             text=
@@ -73,7 +109,6 @@ class App(Frame):
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Title for Mandatory Section
         self.fill_mandat = Label(
             self.frame,
             text="***Must fill all MANDATORY sections***",
@@ -83,9 +118,8 @@ class App(Frame):
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Input File Type Section
         self.var_file_type = StringVar()
-        self.var_file_type.set("Pick Input File Type")  # default
+        self.var_file_type.set("Pick Input File Type")
         self.file_type = OptionMenu(
             self.frame,
             self.var_file_type,
@@ -104,7 +138,6 @@ class App(Frame):
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Filename Section
         self.var_filename = ''
         self.browse_file1 = Button(
             self.frame,
@@ -123,7 +156,6 @@ class App(Frame):
         self.browse_file1.grid_remove()
         self.label_filename.grid_remove()
 
-        ##Input Paired-End File Section
         self.var_paired_file = ''
         self.browse_file2 = Button(
             self.frame,
@@ -148,7 +180,6 @@ Singletons are allowed in the input files.""",
         self.browse_file2.grid_remove()
         self.label_filename2.grid_remove()
 
-        #Input Phred Format Section
         self.var_phred = IntVar()
         self.phred_button = Checkbutton(
             self.frame, text="phred64", variable=self.var_phred)
@@ -163,9 +194,8 @@ Singletons are allowed in the input files.""",
         self.phred_button.grid_remove()
         self.phred_lab.grid_remove()
 
-        #Pick Options to Change Section
         self.var_options = StringVar()
-        self.var_options.set("Pick Options To Change")  # default
+        self.var_options.set("Pick Options To Change")
         self.options = OptionMenu(
             self.frame,
             self.var_options,
@@ -184,37 +214,32 @@ Singletons are allowed in the input files.""",
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Run Button which goes to function: Check_Options when clicked
         self.run_button = Button(
             self.frame, text="Run Prinseq", command=self.Check_Options)
         self.run_button.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
         self.run_button.grid_remove()
 
-        ##Error Output To Screen Label
         self.err = StringVar()
         self.err_message = Message(
             self.frame, text=self.err.get(), aspect=1000, bg="white")
         self.err_message.grid(
             row=x, column=0, columnspan=5, padx=5, sticky="we")
 
-        ##Go To Build Output Section
         self.OUTPUT(x)
 
         return
 
     def OUTPUT(self, x):
 
-        ##Title of Output Portion of GUI##
         self.output_title = Label(
             self.frame, text="Output Options", relief=RAISED, bg="white")
         self.output_title.grid(
             row=x, column=0, columnspan=10, padx=5, pady=(5, 30), sticky="we")
         x += 1
 
-        ##Input Output Format Section
         self.out_format = StringVar()
-        self.out_format.set("Output Format")  # default
+        self.out_format.set("Output Format")
         self.o_format = OptionMenu(self.frame, self.out_format, "FASTA only",
                                    "FASTA and QUAL", "FASTQ",
                                    "FASTQ and FASTA", "FASTQ, FASTA and QUAL",
@@ -228,7 +253,6 @@ Singletons are allowed in the input files.""",
         self.o_format_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Out Good Section
         self.var_out_good = StringVar()
         self.out_good = Entry(
             self.frame, textvariable=self.var_out_good, width=28)
@@ -247,7 +271,6 @@ The file extension will be added automatically (either .fasta, .qual, or .fastq)
         self.out_good_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Out Good for PE File Section
         self.var_out_good2 = StringVar()
         self.out_good2 = Entry(
             self.frame, textvariable=self.var_out_good2, width=28)
@@ -265,7 +288,6 @@ for the paired-end data""",
         self.out_good2_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Out Bad Section
         self.var_out_bad = StringVar()
         self.out_bad = Entry(
             self.frame, textvariable=self.var_out_bad, width=28)
@@ -284,7 +306,6 @@ The file extension will be added automatically (either .fasta, .qual, or .fastq)
         self.out_bad_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Out Bad for PE File Section
         self.var_out_bad2 = StringVar()
         self.out_bad2 = Entry(
             self.frame, textvariable=self.var_out_bad2, width=28)
@@ -302,7 +323,6 @@ for the paired-end data""",
         self.out_bad2_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Log File Section
         self.var_log = StringVar()
         self.log = Entry(self.frame, textvariable=self.var_log, width=28)
         self.log.grid(row=x, column=0, padx=5, pady=5)
@@ -318,7 +338,6 @@ Defaults to inputname.log if cell is cleared""",
         self.log_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Graph Data File Section
         self.var_graph_data = StringVar()
         self.graph_data = Entry(
             self.frame, textvariable=self.var_graph_data, width=28)
@@ -336,7 +355,6 @@ When cell is cleared defaults to inputname.gd""",
         self.graph_data_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Graph Stats File Section
         self.var_graph_stats = StringVar()
         self.graph_stats = Entry(
             self.frame, textvariable=self.var_graph_stats, width=28)
@@ -358,7 +376,6 @@ includes PCA plots)""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Qual No Scale Section
         self.var_qual_noscale = IntVar()
         self.qual_noscale = Checkbutton(
             self.frame,
@@ -377,7 +394,6 @@ includes PCA plots)""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Qual No Header Section
         self.var_no_qual_header = IntVar()
         self.no_qual_header = Checkbutton(
             self.frame,
@@ -396,7 +412,6 @@ includes PCA plots)""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Exact Only Section
         self.var_exact_only = IntVar()
         self.exact_only = Checkbutton(
             self.frame,
@@ -416,21 +431,18 @@ This keeps the memory requirements low for large input files and is faster""",
         self.exact_only_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Go To Build Filter Section
         self.FILTER(x)
 
         return
 
     def FILTER(self, x):
 
-        ##Title of Optional Section
         self.filter_title = Label(
             self.frame, text="Filter Options", relief=RAISED, bg="white")
         self.filter_title.grid(
             row=x, column=0, columnspan=10, padx=5, pady=(5, 30), sticky="we")
         x += 1
 
-        ##Min Length Section
         self.var_min_len = StringVar()
         self.min_len = Entry(
             self.frame, textvariable=self.var_min_len, width=28)
@@ -444,7 +456,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.min_len_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Max Length Section
         self.var_max_len = StringVar()
         self.max_len = Entry(
             self.frame, textvariable=self.var_max_len, width=28)
@@ -458,7 +469,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.max_len_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Range Length Section
         self.var_range_len = StringVar()
         self.range_len = Entry(
             self.frame, textvariable=self.var_range_len, width=28)
@@ -473,7 +483,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.range_len_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Min GC Content Section
         self.var_min_gc = StringVar()
         self.min_gc = Entry(self.frame, textvariable=self.var_min_gc, width=28)
         self.min_gc.grid(row=x, column=0, padx=5, pady=5)
@@ -487,7 +496,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.min_gc_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Max GC Content Section
         self.var_max_gc = StringVar()
         self.max_gc = Entry(self.frame, textvariable=self.var_max_gc, width=28)
         self.max_gc.grid(row=x, column=0, padx=5, pady=5)
@@ -501,7 +509,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.max_gc_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Range GC Content Section
         self.var_range_gc = StringVar()
         self.range_gc = Entry(
             self.frame, textvariable=self.var_range_gc, width=28)
@@ -516,7 +523,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.range_gc_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Min Qual Score Section
         self.var_min_qual_score = StringVar()
         self.min_qual_score = Entry(
             self.frame, textvariable=self.var_min_qual_score, width=28)
@@ -532,7 +538,6 @@ This keeps the memory requirements low for large input files and is faster""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Max Qual Score Section
         self.var_max_qual_score = StringVar()
         self.max_qual_score = Entry(
             self.frame, textvariable=self.var_max_qual_score, width=28)
@@ -548,7 +553,6 @@ This keeps the memory requirements low for large input files and is faster""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Min Qual Mean Section
         self.var_min_qual_mean = StringVar()
         self.min_qual_mean = Entry(
             self.frame, textvariable=self.var_min_qual_mean, width=28)
@@ -563,7 +567,6 @@ This keeps the memory requirements low for large input files and is faster""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Max Qual Mean Section
         self.var_max_qual_mean = StringVar()
         self.max_qual_mean = Entry(
             self.frame, textvariable=self.var_max_qual_mean, width=28)
@@ -578,7 +581,6 @@ This keeps the memory requirements low for large input files and is faster""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##NS Max P Section
         self.var_ns_max_p = StringVar()
         self.ns_max_p = Entry(
             self.frame, textvariable=self.var_ns_max_p, width=28)
@@ -592,7 +594,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.ns_max_p_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##NS Max N Section
         self.var_ns_max_n = StringVar()
         self.ns_max_n = Entry(
             self.frame, textvariable=self.var_ns_max_n, width=28)
@@ -606,7 +607,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.ns_max_n_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Non IUPAC Section
         self.var_noniupac = IntVar()
         self.noniupac = Checkbutton(
             self.frame,
@@ -623,7 +623,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.noniupac_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Seq Num Section
         self.var_seq_num = StringVar()
         self.seq_num = Entry(
             self.frame, textvariable=self.var_seq_num, width=28)
@@ -638,7 +637,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.seq_num_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Derep Section
         self.var_derep = StringVar()
         self.derep = Entry(self.frame, textvariable=self.var_derep, width=28)
         self.derep.grid(row=x, column=0, padx=5, pady=5)
@@ -654,7 +652,6 @@ This keeps the memory requirements low for large input files and is faster""",
         self.derep_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Derep Min Section
         self.var_derep_min = StringVar()
         self.derep_min = Entry(
             self.frame, textvariable=self.var_derep_min, width=28)
@@ -672,9 +669,8 @@ you would specify -derep_min 6. This option can only be used in combination with
         self.derep_min_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##LC Method Section
         self.var_lc_method = StringVar()
-        self.var_lc_method.set("Low Complexity Filter")  # default
+        self.var_lc_method.set("Low Complexity Filter")
         self.lc_method = OptionMenu(self.frame, self.var_lc_method, "dust",
                                     "entropy", "neither")
         self.lc_method.grid(row=x, column=0, padx=5, pady=5)
@@ -686,7 +682,6 @@ you would specify -derep_min 6. This option can only be used in combination with
         self.lc_method_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##LC Threshold Section
         self.var_lc_threshold = StringVar()
         self.lc_threshold = Entry(
             self.frame, textvariable=self.var_lc_threshold, width=28)
@@ -704,7 +699,6 @@ The dust method uses this as max allowed score and the entropy method as min all
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Custom Parameters Section
         self.var_custom_params = StringVar()
         self.custom_params = Entry(
             self.frame, textvariable=self.var_custom_params, width=28)
@@ -729,20 +723,17 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Go To Build Trim Section
         self.TRIM(x)
         return
 
     def TRIM(self, x):
 
-        ##Title of Optional Section
         self.trim_title = Label(
             self.frame, text="Trim Options", relief=RAISED, bg="white")
         self.trim_title.grid(
             row=x, column=0, columnspan=10, padx=5, pady=(5, 30), sticky="we")
         x += 1
 
-        ##Trim to Length Section
         self.var_trim_to_len = StringVar()
         self.trim_to_len = Entry(
             self.frame, textvariable=self.var_trim_to_len, width=28)
@@ -758,7 +749,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Left Section
         self.var_trim_left = StringVar()
         self.trim_left = Entry(
             self.frame, textvariable=self.var_trim_left, width=28)
@@ -772,7 +762,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
         self.trim_left_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Right Section
         self.var_trim_right = StringVar()
         self.trim_right = Entry(
             self.frame, textvariable=self.var_trim_right, width=28)
@@ -786,7 +775,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
         self.trim_right_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Left P Section
         self.var_trim_left_p = StringVar()
         self.trim_left_p = Entry(
             self.frame, textvariable=self.var_trim_left_p, width=28)
@@ -804,7 +792,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Right P Section
         self.var_trim_right_p = StringVar()
         self.trim_right_p = Entry(
             self.frame, textvariable=self.var_trim_right_p, width=28)
@@ -822,7 +809,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Tail Left Section
         self.var_trim_tail_left = StringVar()
         self.trim_tail_left = Entry(
             self.frame, textvariable=self.var_trim_tail_left, width=28)
@@ -838,7 +824,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Tail Right Section
         self.var_trim_tail_right = StringVar()
         self.trim_tail_right = Entry(
             self.frame, textvariable=self.var_trim_tail_right, width=28)
@@ -854,7 +839,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim NS Left Section
         self.var_trim_ns_left = StringVar()
         self.trim_ns_left = Entry(
             self.frame, textvariable=self.var_trim_ns_left, width=28)
@@ -870,7 +854,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim NS Right Section
         self.var_trim_ns_right = StringVar()
         self.trim_ns_right = Entry(
             self.frame, textvariable=self.var_trim_ns_right, width=28)
@@ -886,7 +869,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Qual Left Section
         self.var_trim_qual_left = StringVar()
         self.trim_qual_left = Entry(
             self.frame, textvariable=self.var_trim_qual_left, width=28)
@@ -902,7 +884,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Qual Right Section
         self.var_trim_qual_right = StringVar()
         self.trim_qual_right = Entry(
             self.frame, textvariable=self.var_trim_qual_right, width=28)
@@ -918,9 +899,8 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Qual Type Section
         self.var_trim_qual_type = StringVar()
-        self.var_trim_qual_type.set("Quality Calculation")  # default
+        self.var_trim_qual_type.set("Quality Calculation")
         self.trim_qual_type = OptionMenu(self.frame, self.var_trim_qual_type,
                                          "min", "mean", "max", "sum")
         self.trim_qual_type.grid(row=x, column=0, padx=5, pady=5)
@@ -933,9 +913,8 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Qual Rule Section
         self.var_trim_qual_rule = StringVar()
-        self.var_trim_qual_rule.set("Quality Rule")  # default
+        self.var_trim_qual_rule.set("Quality Rule")
         self.trim_qual_rule = OptionMenu(self.frame, self.var_trim_qual_rule,
                                          "Less Than", "Equal To",
                                          "Greater Than")
@@ -950,7 +929,6 @@ Examples: "AAT 10" (filters out sequences containing AATAATAATAATAATAATAATAATAAT
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Qual Window Section
         self.var_trim_qual_window = StringVar()
         self.trim_qual_window = Entry(
             self.frame, textvariable=self.var_trim_qual_window, width=28)
@@ -968,7 +946,6 @@ To stop at the first base that fails the rule defined, use a window size of 1. D
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Trim Qual Step Section
         self.var_trim_qual_step = StringVar()
         self.trim_qual_step = Entry(
             self.frame, textvariable=self.var_trim_qual_step, width=28)
@@ -986,22 +963,19 @@ the step size should be less or equal to the window size.""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Go To Build Reformat Section
         self.REFORMAT(x)
         return
 
     def REFORMAT(self, x):
 
-        ##Title of Reformat Section
         self.reformat_title = Label(
             self.frame, text="Reformat Options", relief=RAISED, bg="white")
         self.reformat_title.grid(
             row=x, column=0, columnspan=10, padx=5, pady=(5, 30), sticky="we")
         x += 1
 
-        ##Seq Case Section
         self.var_seq_case = StringVar()
-        self.var_seq_case.set("Sequence Case")  # default
+        self.var_seq_case.set("Sequence Case")
         self.seq_case = OptionMenu(self.frame, self.var_seq_case, "Upper Case",
                                    "Lower Case")
         self.seq_case.grid(row=x, column=0, padx=5, pady=5)
@@ -1013,9 +987,8 @@ the step size should be less or equal to the window size.""",
         self.seq_case_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##DNA RNA Conversion Section
         self.var_dna_rna = StringVar()
-        self.var_dna_rna.set("Sequence Conversion")  # default
+        self.var_dna_rna.set("Sequence Conversion")
         self.dna_rna = OptionMenu(self.frame, self.var_dna_rna, "RNA to DNA",
                                   "DNA to RNA")
         self.dna_rna.grid(row=x, column=0, padx=5, pady=5)
@@ -1027,7 +1000,6 @@ the step size should be less or equal to the window size.""",
         self.dna_rna_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Line Width Section
         self.var_line_width = StringVar()
         self.line_width = Entry(
             self.frame, textvariable=self.var_line_width, width=28)
@@ -1045,7 +1017,6 @@ since FASTQ files store sequences without additional line breaks""",
         self.line_width_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Remove Header Section
         self.var_rm_header = IntVar()
         self.rm_header = Checkbutton(
             self.frame,
@@ -1063,7 +1034,6 @@ since FASTQ files store sequences without additional line breaks""",
         self.rm_header_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Seq ID Section
         self.var_seq_id = StringVar()
         self.seq_id = Entry(self.frame, textvariable=self.var_seq_id, width=28)
         self.seq_id.grid(row=x, column=0, padx=5, pady=5)
@@ -1077,21 +1047,18 @@ since FASTQ files store sequences without additional line breaks""",
         self.seq_id_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Go To Build Summary Statistic Section
         self.SUMMARY_STATISTIC(x)
 
         return
 
     def SUMMARY_STATISTIC(self, x):
 
-        ##Title of Summary Statistic Section
         self.summary_statistic_title = Label(
             self.frame, text="Statistic Options", relief=RAISED, bg="white")
         self.summary_statistic_title.grid(
             row=x, column=0, columnspan=10, padx=5, pady=(5, 30), sticky="we")
         x += 1
 
-        ##Output All Stats Section
         self.var_stats_all = IntVar()
         self.stats_all = Checkbutton(
             self.frame,
@@ -1108,7 +1075,6 @@ since FASTQ files store sequences without additional line breaks""",
         self.stats_all_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Output Stats Info Section
         self.var_stats_info = IntVar()
         self.stats_info = Checkbutton(
             self.frame,
@@ -1126,7 +1092,6 @@ since FASTQ files store sequences without additional line breaks""",
         self.stats_info_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Output Stats Length Section
         self.var_stats_len = IntVar()
         self.stats_len = Checkbutton(
             self.frame,
@@ -1144,7 +1109,6 @@ since FASTQ files store sequences without additional line breaks""",
         self.stats_len_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Output Dinucleotide Stats Section
         self.var_stats_dinuc = IntVar()
         self.stats_dinuc = Checkbutton(
             self.frame,
@@ -1164,7 +1128,6 @@ CG (cg), GA/TC (gatc), GC (gc) and TA (ta).""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Output Tag Stats Section
         self.var_stats_tag = IntVar()
         self.stats_tag = Checkbutton(
             self.frame,
@@ -1185,7 +1148,6 @@ Provides the number of predefined MIDs (midnum) and the MID sequences
         self.stats_tag_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Output Duplicate Stats Section
         self.var_stats_dupl = IntVar()
         self.stats_dupl = Checkbutton(
             self.frame,
@@ -1207,7 +1169,6 @@ with an additional "maxd" (e.g. exactmaxd or 5maxd).""",
         self.stats_dupl_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Output NS Stats Section
         self.var_stats_ns = IntVar()
         self.stats_ns = Checkbutton(
             self.frame,
@@ -1227,7 +1188,6 @@ and the maximum percentage of Ns per read (maxp). The maxn and maxp value are no
         self.stats_ns_label.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Output Assembly Stats Section
         self.var_stats_assembly = IntVar()
         self.stats_assembly = Checkbutton(
             self.frame,
@@ -1249,14 +1209,11 @@ is at least xx% of the total length (sum of contig lengths).""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Go To Options Section
         self.OPTIONS(x)
         return
 
     def FILE_TYPE(self, x):
 
-        ##Depending on the type of file, The program will display the necessary Single end or paired end options
-        ##Then will display button as well
         if (self.var_file_type.get() == "Fastq File"
                 or self.var_file_type.get() == "Amino Acid File"
                 or self.var_file_type.get() == "Fasta File"):
@@ -1295,9 +1252,6 @@ is at least xx% of the total length (sum of contig lengths).""",
         return
 
     def OPTIONS(self, x):
-
-        ##When creating the display it will remove all options from the screen initially, however when an option
-        ##is picked to change, it will display those specific options to change
 
         self.output_title.grid_remove()
         self.o_format.grid_remove()
@@ -1573,15 +1527,8 @@ is at least xx% of the total length (sum of contig lengths).""",
 
     def Check_Options(self):
 
-        ##Looks at the options that have been checked off and creates a string##
-        ##Set the start of the string
         functions.globstring = "perl ./GenCoF-master/Prinseq/prinseq-lite-0.20.4/prinseq-lite.pl "
-        ##Set errors to nothing
-        ##If errors present add on string of errors
         errors = ''
-
-        ##Runs through all the options and creates string for the options that have been marked by the user##
-        ##If mandatory options not checked or wrong input to an option then add to errors##
 
         if (self.var_file_type.get() == "Fastq File"):
             if (self.var_filename != ''):
@@ -1682,7 +1629,6 @@ is at least xx% of the total length (sum of contig lengths).""",
         if (self.var_exact_only.get()):
             functions.globstring += ("-exact_only ")
 
-        ##Filter Options##
         if (functions.is_int(self.var_min_len.get())):
             functions.globstring += (
                 "-min_len " + self.var_min_len.get() + " ")
@@ -1742,7 +1688,6 @@ is at least xx% of the total length (sum of contig lengths).""",
             functions.globstring += (
                 "-custom_params " + self.var_custom_params.get() + " ")
 
-        ##Trim Options##
         if (functions.is_int(self.var_trim_to_len.get())):
             functions.globstring += (
                 "-trim_to_len " + self.var_trim_to_len.get() + " ")
@@ -1790,7 +1735,6 @@ is at least xx% of the total length (sum of contig lengths).""",
             functions.globstring += (
                 "-trim_qual_step " + self.var_trim_qual_step.get() + " ")
 
-        ##Reformat Options##
         if (self.var_seq_case.get() == "Upper Case"):
             functions.globstring += ("-seq_case " + "upper ")
         elif (self.var_seq_case.get() == "Lower Case"):
@@ -1808,7 +1752,6 @@ is at least xx% of the total length (sum of contig lengths).""",
                 and self.var_seq_id.get() != ''):
             functions.globstring += ("-seq_id " + self.var_seq_id.get() + " ")
 
-        ##Summary Statistic Options##
         if (self.var_stats_all.get()):
             functions.globstring += ("-stats_all ")
         else:
@@ -1827,9 +1770,6 @@ is at least xx% of the total length (sum of contig lengths).""",
             if (self.var_stats_assembly.get()):
                 functions.globstring += ("-stats_assembly ")
 
-        ##If there are no errors than run the string with Prinseq
-        ##Put the Output to the Screen from the program run
-        ##If there are errors put them to the screen
         self.err_message.config(text="Running....", font="Times 18")
         self.update()
         if (errors == ''):
@@ -1858,29 +1798,22 @@ is at least xx% of the total length (sum of contig lengths).""",
                 text=('ERRORS: \n' + errors), fg='dark red', font="Times 18")
         return
 
-    ##Gives ability to Browse for a file and sets to a variable
     def browse_file_input1(self):
         self.var_filename = filedialog.askopenfilename()
         return
 
-    ##Gives ability to Browse for a file and sets to a variable
     def browse_file_input2(self):
         self.var_paired_file = filedialog.askopenfilename()
         return
 
     def onFrameConfigure(self, event):
-        #Reset the scroll region to encompass the inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         return
 
 
 if __name__ == "__main__":
-    ##Start of App
-    ##Creates Window and goes to the Mainloop of the class and creates the App
     root = Tk()
     root.wm_title("PRINSEQ")
     root.geometry('1050x535')
     App(root).pack(side="top", fill="both", expand=True)
     root.mainloop()
-
-#graph data

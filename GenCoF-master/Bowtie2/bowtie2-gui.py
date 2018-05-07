@@ -1,11 +1,56 @@
-import shlex, subprocess, os, sys
+import shlex
+import subprocess
+import os
+import sys
 from tkinter import filedialog
 from tkinter import *
 
-#Specifications: Requires Python 3 module Tkinter
+##############################################################################
+# 
+# is_int - Checks if argument is an integer
+# 
+# Run - Closes window and opens GenCoF main
+#
+# App - Sets the window and grid of the app
+#
+## Functions within App:
+## __init__ - Sets up the display of Bowtie2's main interface through
+## buttons and labels
+##
+## MANDATORY - Sets up widgets for the mandatory options of App
+##
+## OPTIONAL - Sets up widgets for the optional options of App
+##
+## OPTIONAL_ALIGN - Sets up widgets for the alignment options of App
+##
+## SCORING - Sets up widgets for the scoring options of App
+##
+## PRESETS - Sets up widgets for the preset options of App
+##
+## EFFORT_PERFORMANCE_OPTIONS - Sets up widgets for the preset options of App
+##
+## PAIRED_OPTIONS - Sets up widgets for the paired-end options of App
+##
+## OPTIONS - Sets up display of options that one selects to be displayed
+##
+## Check_Options - Checks the widgets used and creates a string of options
+## that get inputted to terminal to run Bowtie2
+##
+## SE_and_PE - Dynamically adds or subtracts widgets based on Single-end or
+## paired-end being picked
+##
+## browse_file_input1 - Lets user choose a file and puts the file path in a
+## variable
+##
+## browse_file_input2 - Lets user choose a second file and puts the file path
+## in a variable
+##
+## onFrameConfigure - Creates a scrollbar 
+# 
+# __name__ - Sets up base directory, builds App and sets up window size
+#
+##############################################################################
 
-
-##Function to check for integer
 def is_int(s):
     try:
         int(s)
@@ -14,7 +59,6 @@ def is_int(s):
         return False
 
 
-##Closes window and opens window run
 def Run():
     root.destroy()
     if (sys.platform == 'linux'):
@@ -30,9 +74,7 @@ def Run():
 
 class App(Frame):
     def __init__(self, root):
-        ##Start to Create the grid build of GUI##
 
-        ##Sets up the frame of the window as well as adding a scrollbar
         Frame.__init__(self, root)
         self.canvas = Canvas(root, borderwidth=0, background="white")
         self.frame = Frame(self.canvas, background="#ffffff")
@@ -47,20 +89,17 @@ class App(Frame):
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
 
-        ##Go To Build Mandatory Section
         self.MANDATORY()
         return
 
     def MANDATORY(self):
 
-        x = 0  #current row for grid
+        x = 0
 
-        ##Returns to run where you can select another module of the GUI
         self.run_butt = Button(self.frame, text="BACK", command=Run)
         self.run_butt.grid(row=x, column=0, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Title of Bowtie2 Portion of GUI##
         self.file1_title = Label(
             self.frame, text="Bowtie2", font="Times 20 bold", bg="white").grid(
                 row=x,
@@ -71,7 +110,6 @@ class App(Frame):
                 sticky="we")
         x += 1
 
-        ##Citation for Bowtie2
         self.fill_mandat = Label(
             self.frame,
             text=
@@ -81,7 +119,6 @@ class App(Frame):
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Title for Mandatory Section
         self.fill_mandat = Label(
             self.frame,
             text="***Must fill all MANDATORY sections***",
@@ -91,9 +128,8 @@ class App(Frame):
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##PE, SE or Interleaved option with Label##
         self.var_se_pe = StringVar()
-        self.var_se_pe.set("Pick SE, PE or Interleaved")  # default
+        self.var_se_pe.set("Pick SE, PE or Interleaved") 
         self.SE_PE = OptionMenu(
             self.frame,
             self.var_se_pe,
@@ -110,7 +146,6 @@ class App(Frame):
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input File Section
         self.var_filename = ''
         self.browse_file = Button(
             self.frame,
@@ -128,7 +163,6 @@ If paired end files enter forward strand here.""",
         self.label_filename.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Second File Section
         self.var_filename2 = ''
         self.browse_file2 = Button(
             self.frame,
@@ -148,7 +182,6 @@ Enter reverse strand into this file input and forward strand into the first file
         self.browse_file2.grid_remove()
         self.label_filename2.grid_remove()
 
-        ##Input Database Section
         self.var_dbs = StringVar()
         self.dbs = Entry(
             self.frame, textvariable=self.var_dbs, width=28).grid(
@@ -170,9 +203,8 @@ Common databases can be downloaded easily through iGenomes)""",
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Files Type
         self.var_input = StringVar()
-        self.var_input.set("Input File Type")  # default
+        self.var_input.set("Input File Type")
         self.input = OptionMenu(self.frame, self.var_input, "Fastq",
                                 "Fasta or Multifasta", "QSEQ")
         self.input.grid(row=x, column=0, padx=5, pady=5)
@@ -184,9 +216,8 @@ Common databases can be downloaded easily through iGenomes)""",
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Alignment Type
         self.var_align_type = StringVar()
-        self.var_align_type.set("Pick Alignment Type")  # default
+        self.var_align_type.set("Pick Alignment Type")
         self.align_type = OptionMenu(self.frame, self.var_align_type,
                                      "End to End", "Local")
         self.align_type.grid(row=x, column=0, padx=5, pady=5)
@@ -201,9 +232,8 @@ Default is end to end which is entire read must align; no clipping.""",
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Phred Quality Score
         self.var_phred = StringVar()
-        self.var_phred.set("Input Quality Type")  # default
+        self.var_phred.set("Input Quality Type")
         self.phred = OptionMenu(self.frame, self.var_phred, "Phred 33",
                                 "Phred 64")
         self.phred.grid(row=x, column=0, padx=5, pady=5)
@@ -215,15 +245,13 @@ Default is end to end which is entire read must align; no clipping.""",
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Run Button which goes to function: Check_Options when clicked
         self.run_button = Button(
             self.frame, text="Run Bowtie2", command=self.Check_Options)
         self.run_button.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        #Pick Options to Change Section
         self.var_options = StringVar()
-        self.var_options.set("Display Options")  # default
+        self.var_options.set("Display Options")
         self.options = OptionMenu(
             self.frame,
             self.var_options,
@@ -244,13 +272,11 @@ Default is end to end which is entire read must align; no clipping.""",
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Go To Build Optional Section
         self.OPTIONAL(x)
         return
 
     def OPTIONAL(self, x):
 
-        ##Title of Output Section
         self.optional_lab = Label(
             self.frame,
             text="**Output Options**",
@@ -261,7 +287,6 @@ Default is end to end which is entire read must align; no clipping.""",
             row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Input Output Unaligned Section
         self.var_out_unaligned = StringVar()
         self.out_unaligned = Entry(
             self.frame, textvariable=self.var_out_unaligned, width=28)
@@ -277,7 +302,6 @@ Default is end to end which is entire read must align; no clipping.""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Output Aligned Section
         self.var_out_aligned = StringVar()
         self.out_aligned = Entry(
             self.frame, textvariable=self.var_out_aligned, width=28)
@@ -292,7 +316,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.out_aligned_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Output Sam Section
         self.var_out_sam = StringVar()
         self.out_sam = Entry(
             self.frame, textvariable=self.var_out_sam, width=28)
@@ -306,13 +329,11 @@ Default is end to end which is entire read must align; no clipping.""",
         self.out_sam_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Go To Build Optional Align Section
         self.OPTIONAL_ALIGN(x)
         return
 
     def OPTIONAL_ALIGN(self, x):
 
-        ##Title for Optional Align Section
         self.Optional_al_lab = Label(
             self.frame,
             text=
@@ -324,7 +345,6 @@ Default is end to end which is entire read must align; no clipping.""",
             row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Input Max Mismatches Section
         self.var_N = StringVar()
         self.N = Entry(self.frame, textvariable=self.var_N, width=28)
         self.N.grid(row=x, column=0, padx=5, pady=5)
@@ -339,7 +359,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.N_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Length of Seed Section
         self.var_length = StringVar()
         self.length = Entry(self.frame, textvariable=self.var_length, width=28)
         self.length.grid(row=x, column=0, padx=5, pady=5)
@@ -354,7 +373,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.length_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Seed Interval Section
         self.var_i = StringVar()
         self.i = Entry(self.frame, textvariable=self.var_i, width=28)
         self.i.grid(row=x, column=0, padx=5, pady=5)
@@ -368,7 +386,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.i_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input N Ceiling Section
         self.var_n_ceil = StringVar()
         self.n_ceil = Entry(self.frame, textvariable=self.var_n_ceil, width=28)
         self.n_ceil.grid(row=x, column=0, padx=5, pady=5)
@@ -382,7 +399,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.n_ceil_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Ref Chars Section
         self.var_dpad = StringVar()
         self.dpad = Entry(self.frame, textvariable=self.var_dpad, width=28)
         self.dpad.grid(row=x, column=0, padx=5, pady=5)
@@ -396,7 +412,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.dpad_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Disallow Gaps Section
         self.var_gbar = StringVar()
         self.gbar = Entry(self.frame, textvariable=self.var_gbar, width=28)
         self.gbar.grid(row=x, column=0, padx=5, pady=5)
@@ -410,7 +425,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.gbar_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Ignore Quality Values
         self.var_ignore_quals = IntVar()
         self.ignore_quals_button = Checkbutton(
             self.frame,
@@ -426,7 +440,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.ignore_quals_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Don't Align Forward
         self.var_nofw = IntVar()
         self.nofw_button = Checkbutton(
             self.frame, text="No Forward", variable=self.var_nofw, bg="white")
@@ -439,7 +452,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.nofw_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Don't Align Reverse
         self.var_norc = IntVar()
         self.norc_button = Checkbutton(
             self.frame, text="No Reverse", variable=self.var_norc, bg="white")
@@ -452,7 +464,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.norc_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Don't Allow Mismatch Aligns
         self.var_no_mm_upfront = IntVar()
         self.no_mm_upfront_button = Checkbutton(
             self.frame,
@@ -470,7 +481,6 @@ Default is end to end which is entire read must align; no clipping.""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##QSEQ Filter
         self.var_qc_filter = IntVar()
         self.qc_filter_button = Checkbutton(
             self.frame,
@@ -491,7 +501,6 @@ Default is end to end which is entire read must align; no clipping.""",
 
     def SCORING(self, x):
 
-        ##Title of Scoring Section
         self.scoring_lab = Label(
             self.frame,
             text="**Scoring Options**",
@@ -502,7 +511,6 @@ Default is end to end which is entire read must align; no clipping.""",
             row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Input Match Bonus Section
         self.var_ma = StringVar()
         self.ma = Entry(self.frame, textvariable=self.var_ma, width=28)
         self.ma.grid(row=x, column=0, padx=5, pady=5)
@@ -516,7 +524,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.ma_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Max Penalty Section
         self.var_mp = StringVar()
         self.mp = Entry(self.frame, textvariable=self.var_mp, width=28)
         self.mp.grid(row=x, column=0, padx=5, pady=5)
@@ -530,7 +537,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.mp_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Non ACGT Penalty Section
         self.var_np = StringVar()
         self.np = Entry(self.frame, textvariable=self.var_np, width=28)
         self.np.grid(row=x, column=0, padx=5, pady=5)
@@ -544,7 +550,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.np_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Penalties Section
         self.var_rdg = StringVar()
         self.rdg = Entry(self.frame, textvariable=self.var_rdg, width=28)
         self.rdg.grid(row=x, column=0, padx=5, pady=5)
@@ -558,7 +563,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.rdg_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Penalties Section
         self.var_rfg = StringVar()
         self.rfg = Entry(self.frame, textvariable=self.var_rfg, width=28)
         self.rfg.grid(row=x, column=0, padx=5, pady=5)
@@ -572,7 +576,6 @@ Default is end to end which is entire read must align; no clipping.""",
         self.rfg_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Min Alignment Section
         self.var_score_min = StringVar()
         self.score_min = Entry(
             self.frame, textvariable=self.var_score_min, width=28)
@@ -592,7 +595,6 @@ Default is G,20,8 for local, L,-0.6,-0.6 for end-to-end""",
 
     def PRESETS(self, x):
 
-        ##Title of Optional Section
         self.presets_lab = Label(
             self.frame,
             text="**Quick Optimality Options**",
@@ -603,7 +605,6 @@ Default is G,20,8 for local, L,-0.6,-0.6 for end-to-end""",
             row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Title of Optional Section
         self.presets_info_lab = Label(
             self.frame,
             text="""Where -D is give up extending after number of failed extends
@@ -618,9 +619,8 @@ Default is G,20,8 for local, L,-0.6,-0.6 for end-to-end""",
             row=x, column=0, columnspan=10, padx=5, pady=5)
         x += 1
 
-        ##Quick End to End Preset Options
         self.var_end_to_end = StringVar()
-        self.var_end_to_end.set("Quick Preset Alignments")  # default
+        self.var_end_to_end.set("Quick Preset Alignments")
         self.end_to_end = OptionMenu(self.frame, self.var_end_to_end,
                                      "Very Fast", "Fast", "Sensitive",
                                      "Very Sensitive")
@@ -638,9 +638,8 @@ very-sensitive -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.end_to_end_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Quick Local Preset Options
         self.var_local = StringVar()
-        self.var_local.set("Quick Preset Alignments")  # default
+        self.var_local.set("Quick Preset Alignments")
         self.local = OptionMenu(self.frame, self.var_local, "Very Fast Local",
                                 "Fast Local", "Sensitive Local",
                                 "Very Sensitive Local")
@@ -662,7 +661,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
 
     def EFFORT_PERFORMANCE_OPTIONS(self, x):
 
-        ##Title of Effort and Performance Section
         self.effort_perform_lab = Label(
             self.frame,
             text="**Effort and Performance Options**",
@@ -673,7 +671,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
             row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Input Extenstion Section
         self.var_D = StringVar()
         self.D = Entry(self.frame, textvariable=self.var_D, width=28)
         self.D.grid(row=x, column=0, padx=5, pady=5)
@@ -687,7 +684,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.D_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Sets of Seeds Section
         self.var_R = StringVar()
         self.R = Entry(self.frame, textvariable=self.var_R, width=28)
         self.R.grid(row=x, column=0, padx=5, pady=5)
@@ -701,7 +697,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.R_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Alignment Threads Section
         self.var_threads = StringVar()
         self.threads = Entry(
             self.frame, textvariable=self.var_threads, width=28)
@@ -716,7 +711,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.threads_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Memory Mapped
         self.var_mm = IntVar()
         self.mm_button = Checkbutton(
             self.frame, text="Memory Mapped", variable=self.var_mm, bg="white")
@@ -734,7 +728,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
 
     def PAIRED_OPTIONS(self, x):
 
-        ##Title of Paired Options Section
         self.paired_lab = Label(
             self.frame,
             text="**Paired End Options**",
@@ -745,7 +738,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
             row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Input Min Fragment Length Section
         self.var_minins = StringVar()
         self.minins = Entry(self.frame, textvariable=self.var_minins, width=28)
         self.minins.grid(row=x, column=0, padx=5, pady=5)
@@ -758,7 +750,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.minins_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Max Fragment Length Section
         self.var_maxins = StringVar()
         self.maxins = Entry(self.frame, textvariable=self.var_maxins, width=28)
         self.maxins.grid(row=x, column=0, padx=5, pady=5)
@@ -771,7 +762,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.maxins_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Suppress Unpaired
         self.var_no_mixed = IntVar()
         self.no_mixed_button = Checkbutton(
             self.frame,
@@ -787,7 +777,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.no_mixed_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Suppress Discordant
         self.var_no_discordant = IntVar()
         self.no_discordant_button = Checkbutton(
             self.frame,
@@ -804,7 +793,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Concordant
         self.var_dovetail = IntVar()
         self.dovetail_button = Checkbutton(
             self.frame,
@@ -820,7 +808,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.dovetail_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Not Concordant
         self.var_no_contain = IntVar()
         self.no_contain_button = Checkbutton(
             self.frame,
@@ -837,7 +824,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.no_contain_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##No Overlap
         self.var_no_overlap = IntVar()
         self.no_overlap_button = Checkbutton(
             self.frame,
@@ -855,7 +841,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
 
         self.OPTIONS(x)
 
-        ##Error Output To Screen Label
         self.err = StringVar()
         self.err_message = Message(
             self.frame, text=self.err.get(), aspect=1000, bg="white")
@@ -866,8 +851,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
 
     def OPTIONS(self, x):
 
-        ##When creating the display it will remove all options from the screen initially, however when an option
-        ##is picked to change, it will display those specific options to change
         self.optional_lab.grid_remove()
         self.out_unaligned.grid_remove()
         self.out_unaligned_lab.grid_remove()
@@ -1025,15 +1008,8 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
 
     def Check_Options(self):
 
-        ##Looks at the options that have been checked off and creates a string##
-        ##Set the start of the string
         globstring = "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/bowtie2 "
-        ##Set errors to nothing
-        ##If errors present add on string of errors
         errors = ''
-
-        ##Runs through all the options and creates string for the options that have been marked by the user##
-        ##If mandatory options not checked or wrong input to an option then add to errors##
 
         if (self.var_input.get() == "Fasta or Multifasta"):
             globstring += "-f "
@@ -1179,9 +1155,6 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         else:
             globstring += "-S SamFile "
 
-        ##If there are no errors than run the string with Bowtie2
-        ##Put the Output to the Screen from the program run
-        ##If there are errors put them to the screen
         if (errors == ''):
             cmd_line = shlex.split(globstring)
             if ('bowtie2-build-l' in os.listdir(
@@ -1231,9 +1204,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
 
         return
 
-    def SE_and_PE(self, another):  #
-        #####Function that adds to File if PE is Picked######
-
+    def SE_and_PE(self, another): 
         if (self.var_se_pe.get() == "Paired-end"):
             self.browse_file2.grid()
             self.label_filename2.grid()
@@ -1245,25 +1216,20 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
 
         return
 
-    ##Gives ability to Browse for a file and sets to a variable
     def browse_file_input1(self):
         self.var_filename = filedialog.askopenfilename()
         return
 
-    ##Gives ability to Browse for a file and sets to a variable
     def browse_file_input2(self):
         self.var_filename2 = filedialog.askopenfilename()
         return
 
     def onFrameConfigure(self, event):
-        #Reset the scroll region to encompass the inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         return
 
 
 if __name__ == "__main__":
-    ##Start of App
-    ##Creates Window and goes to the Mainloop of the class and creates the App
     root = Tk()
     root.wm_title("BOWTIE2")
     root.geometry('1050x610')

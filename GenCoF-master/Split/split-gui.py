@@ -1,11 +1,34 @@
-import shlex, subprocess, os, sys
+import shlex
+import subprocess
+import os
+import sys
 from tkinter import filedialog
 from tkinter import *
 
-#Specifications: Requires Perl and Python 3 module Tkinter
+##############################################################################
+# 
+# Run - Closes window and opens GenCoF main
+#
+# App - Sets the window and grid of the app
+#
+## Functions within App:
+## __init__ - Sets up the display of Split's main interface through
+## buttons and labels
+##
+## MANDATORY - Sets up widgets for the mandatory options of App
+##
+## Check_Options - Checks the widgets used and creates a string of options
+## that get inputted to terminal to run Split
+##
+## browse_file_input1 - Lets user choose a file and puts the file path in a
+## variable
+##
+## onFrameConfigure - Creates a scrollbar 
+# 
+# __name__ - Sets up base directory, builds App and sets up window size
+#
+##############################################################################
 
-
-##Closes window and opens window run
 def Run():
     root.destroy()
     if (sys.platform == 'linux'):
@@ -21,9 +44,7 @@ def Run():
 
 class App(Frame):
     def __init__(self, root):
-        ##Start to Create the grid build of GUI##
 
-        ##Sets up the frame of the window as well as adding a scrollbar
         Frame.__init__(self, root)
         self.canvas = Canvas(root, borderwidth=0, background="white")
         self.frame = Frame(self.canvas, background="#ffffff")
@@ -38,20 +59,17 @@ class App(Frame):
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
 
-        ##Go To Build Mandatory Section
         self.MANDATORY()
         return
 
     def MANDATORY(self):
 
-        x = 0  #current row for grid
+        x = 0
 
-        ##Returns to run where you can select another module of the GUI
         self.run_butt = Button(self.frame, text="BACK", command=Run)
         self.run_butt.grid(row=x, column=0, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Title of Deconseq Portion of GUI##
         self.file1_title = Label(
             self.frame, text="Split", font="Times 24 bold", bg="white").grid(
                 row=x,
@@ -62,7 +80,6 @@ class App(Frame):
                 sticky="we")
         x += 1
 
-        ##Title for Mandatory Section
         self.fill_mandat = Label(
             self.frame,
             text=
@@ -73,7 +90,6 @@ class App(Frame):
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Title for Mandatory Section
         self.fill_mandat = Label(
             self.frame,
             text="***Must fill all MANDATORY sections***",
@@ -83,7 +99,6 @@ class App(Frame):
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Input File Section
         self.var_filename = ''
         self.browse_file = Button(
             self.frame,
@@ -100,7 +115,6 @@ class App(Frame):
         self.label_filename.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input File Type Section
         self.var_file_type = StringVar()
         self.var_file_type.set("Pick File Type")
         self.file_type = OptionMenu(self.frame, self.var_file_type, "FASTA",
@@ -114,7 +128,6 @@ class App(Frame):
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Amount of Files to Split Into
         self.var_n_parts = StringVar()
         self.n_parts = Entry(
             self.frame, textvariable=self.var_n_parts, width=28)
@@ -130,13 +143,11 @@ class App(Frame):
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Run Button which goes to function: Check_Options when clicked
         self.run_button = Button(
             self.frame, text="Run Split", command=self.Check_Options)
         self.run_button.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Error Output To Screen Label
         self.err = StringVar()
         self.err_message = Label(
             self.frame,
@@ -152,11 +163,6 @@ class App(Frame):
     def Check_Options(self):
 
         globstring = ''
-        ##Looks at the options that have been checked off and creates a string##
-        ##Set the start of the string
-
-        ##Set errors to nothing
-        ##If errors present add on string of errors
         errors = ''
 
         if (self.var_file_type.get() == "FASTA"):
@@ -166,10 +172,7 @@ class App(Frame):
         else:
             errors += "No file type picked\n"
 
-        ##Runs through all the options and creates string for the options that have been marked by the user##
-        ##If mandatory options not checked or wrong input to an option then add to errors##
-
-        if (self.var_filename == ''):  # Get Input Filename
+        if (self.var_filename == ''):
             errors += "Enter Input File\n"
         else:
             globstring += "'" + self.var_filename + "'" + " "
@@ -180,9 +183,6 @@ class App(Frame):
         else:
             globstring += "--n-parts " + self.var_n_parts.get()
 
-        ##If there are no errors than run the string with Deconseq
-        ##Put the Output to the Screen from the program run
-        ##If there are errors put them to the screen
         self.err_message.config(text="Running....", font="Times 18")
         self.update()
         if (errors == ''):
@@ -219,14 +219,11 @@ class App(Frame):
         return
 
     def onFrameConfigure(self, event):
-        #Reset the scroll region to encompass the inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         return
 
 
 if __name__ == "__main__":
-    ##Start of App
-    ##Creates Window and goes to the Mainloop of the class and creates the App
     root = Tk()
     root.wm_title("Split")
     root.geometry('800x350')

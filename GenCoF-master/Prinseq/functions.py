@@ -1,5 +1,8 @@
-globstring = "./GenCoF-master/prinseq-lite-0.20.4/prinseq-lite.pl"
-
+##############################################################################
+#
+# is_int - Checks if argument is an integer
+#
+##############################################################################
 
 def is_int(s):
     try:

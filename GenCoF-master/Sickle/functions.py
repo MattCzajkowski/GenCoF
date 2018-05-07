@@ -1,19 +1,43 @@
-##Functions for Check Options in sickle-gui.py
+##############################################################################
+# 
+# is_int - Checks if argument is an integer
+#
+# args_se_and_pe_non_man - Determines which string to add to globstring based
+# on arguments given
+#
+# inter_m - Adds -m and argument to globstring based on interleaved file
+#
+# inter_big_m - Adds -M and argument to globstring based on interleaved file
+#
+# file_input_inter - Adds -c and argument to globstring based on interleaved
+# file given
+#
+# trimmed - Adds -s and argument to globstring based on trim argument given
+#
+# file_input - Adds -f and argument to globstring based on input file given
+#
+# file_rev_input - Adds -r and argument to globstring based on reverse
+# file given
+#
+# quality_vals - Adds quality type inputted to globstring
+#
+# output_rev - Adds -p and argument to globstring based on output reverse
+# file given
+#
+# output - Adds -o and argument to globstring based on output file given
+#
+# args_se_pe - Adds file type to globstring
+#
+##############################################################################
 
 globstring = "./GenCoF-master/Sickle/sickle-master/sickle"
 
-
-#checks if value is an integer
 def is_int(s):
     try:
         int(s)
         return True
     except ValueError:
         return False
-
-
-##Rest of functions add string options to global variable globstring
-
 
 def args_se_and_pe_non_man(arg1, arg2):
     global globstring
@@ -33,13 +57,11 @@ def args_se_and_pe_non_man(arg1, arg2):
         globstring += " -g"
     return
 
-
 def inter_m(arg1):
     global globstring
     globstring += ' -m '
     globstring += arg1
     return
-
 
 def inter_big_m(arg1):
     global globstring
@@ -47,13 +69,11 @@ def inter_big_m(arg1):
     globstring += arg1
     return
 
-
 def file_input_inter(arg1):
     global globstring
     globstring += ' -c '
     globstring += arg1
     return
-
 
 def trimmed(arg1):
     global globstring
@@ -61,20 +81,17 @@ def trimmed(arg1):
     globstring += arg1
     return
 
-
 def file_input(arg1):
     global globstring
     globstring += " -f '"
     globstring += arg1 + "'"
     return
 
-
 def file_rev_input(arg1):
     global globstring
     globstring += " -r '"
     globstring += arg1 + "'"
     return
-
 
 def quality_vals(arg1):
     global globstring
@@ -87,20 +104,17 @@ def quality_vals(arg1):
         globstring += 'sanger'
     return
 
-
 def output_rev(arg1):
     global globstring
     globstring += ' -p ./'
     globstring += arg1
     return
 
-
 def output(arg1):
     global globstring
     globstring += ' -o ./'
     globstring += arg1
     return
-
 
 def args_se_pe(arg1):
     global globstring

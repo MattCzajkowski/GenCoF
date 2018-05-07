@@ -1,9 +1,34 @@
-import shlex, subprocess, os, sys
+import shlex
+import subprocess
+import os
+import sys
 from tkinter import filedialog
 from tkinter import *
 
+##############################################################################
+#
+# Run - Closes window and opens GenCoF main
+#
+# App - Sets the window and grid of the app
+#
+## Functions within App:
+## __init__ - Sets up the display of Join's main interface through
+## buttons and labels
+##
+## MANDATORY - Sets up widgets for the mandatory options of App
+##
+## Check_Options - Checks the widgets used and creates a string of options
+## that get inputted to terminal to run Join
+##
+## browse_file_input1 - Lets user choose a file and puts the file path in a
+## variable
+##
+## onFrameConfigure - Creates a scrollbar 
+# 
+# __name__ - Sets up base directory, builds App and sets up window size
+#
+##############################################################################
 
-#Specifications: Requires cat executable, Python 3 module Tkinter, and Linux environment
 def Run():
     root.destroy()
     if (sys.platform == 'linux'):
@@ -19,9 +44,6 @@ def Run():
 
 class App(Frame):
     def __init__(self, root):
-        ##Start to Create the grid build of GUI##
-
-        ##Sets up the frame of the window as well as adding a scrollbar
         Frame.__init__(self, root)
         self.canvas = Canvas(root, borderwidth=0, background="white")
         self.frame = Frame(self.canvas, background="#ffffff")
@@ -36,20 +58,16 @@ class App(Frame):
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
 
-        ##Go To Build Mandatory Section
         self.MANDATORY()
         return
 
     def MANDATORY(self):
 
-        x = 0  #current row for grid
-
-        ##Returns to run where you can select another module of the GUI
+        x = 0
         self.run_butt = Button(self.frame, text="BACK", command=Run)
         self.run_butt.grid(row=x, column=0, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Title of Deconseq Portion of GUI##
         self.file1_title = Label(
             self.frame, text="Join", font="Times 20 bold", bg="white").grid(
                 row=x,
@@ -60,7 +78,6 @@ class App(Frame):
                 sticky="we")
         x += 1
 
-        ##Input File Section
         self.var_filename = ''
         self.browse_file = Button(
             self.frame,
@@ -77,7 +94,6 @@ class App(Frame):
         self.label_filename.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input File Type Section
         self.var_file_type = StringVar()
         self.var_file_type.set("Pick File Type")
         self.file_type = OptionMenu(self.frame, self.var_file_type, "FASTA",
@@ -91,7 +107,6 @@ class App(Frame):
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Output Filename Section
         self.var_out_file = StringVar()
         self.out_file = Entry(
             self.frame, textvariable=self.var_out_file, width=29).grid(
@@ -106,13 +121,11 @@ class App(Frame):
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Run Button which goes to function: Check_Options when clicked
         self.run_button = Button(
             self.frame, text="Run Join", command=self.Check_Options)
         self.run_button.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Error Output To Screen Label
         self.err = StringVar()
         self.err_message = Label(
             self.frame,
@@ -131,17 +144,9 @@ class App(Frame):
             globstring = 'type '
         else:
             globstring = 'cat '
-        ##Looks at the options that have been checked off and creates a string##
-        ##Set the start of the string
-
-        ##Set errors to nothing
-        ##If errors present add on string of errors
         errors = ''
 
-        ##Runs through all the options and creates string for the options that have been marked by the user##
-        ##If mandatory options not checked or wrong input to an option then add to errors##
-
-        if (self.var_filename == ''):  # Get Input Filename
+        if (self.var_filename == ''):
             errors += "Enter Input Files\n"
         else:
             globstring += "'" + "' '".join(self.var_filename) + "'" + " "
@@ -162,14 +167,10 @@ class App(Frame):
         else:
             globstring += ".fastq"
 
-        ##If there are no errors than run the string with Join
-        ##Put the Output to the Screen from the program run
-        ##If there are errors put them to the screen
         self.err_message.config(text="Running....", font="Times 18")
         self.update()
         if (errors == ''):
             cmd_line = shlex.split(globstring)
-            ##Actually run process
             p = subprocess.Popen(
                 globstring,
                 stdout=subprocess.PIPE,
@@ -195,15 +196,12 @@ class App(Frame):
         return
 
     def onFrameConfigure(self, event):
-        #Reset the scroll region to encompass the inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
         return
 
 
 if __name__ == "__main__":
-    ##Start of App
-    ##Creates Window and goes to the Mainloop of the class and creates the App
     root = Tk()
     root.wm_title("Join")
     root.geometry('900x300')

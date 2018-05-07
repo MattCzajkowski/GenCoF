@@ -1,11 +1,42 @@
-import functions, sys, shlex, subprocess, os
+import functions
+import sys
+import shlex
+import subprocess
+import os
 from tkinter import filedialog
 from tkinter import *
 
-#Specifications: Requires C compiler and Python 3 module Tkinter
+##############################################################################
+# 
+# Run - Closes window and opens GenCoF main
+#
+# App - Sets the window and grid of the app
+#
+## Functions within App:
+## __init__ - Sets up the display of Sickle's main interface through
+## buttons and labels
+##
+## MANDATORY - Sets up widgets for the mandatory options of App
+##
+## OPTIONAL - Sets up widgets for the optional options of App
+##
+## OPTIONS - Sets up display of options that one selects to be displayed
+##
+## Check_Options - Checks the widgets used and creates a string of options
+## that get inputted to terminal to run Sickle
+##
+## browse_file_input1 - Lets user choose a file and puts the file path in a
+## variable
+##
+## browse_file_input2 - Lets user choose a second file and puts the file path
+## in a variable
+##
+## onFrameConfigure - Creates a scrollbar 
+# 
+# __name__ - Sets up base directory, builds App and sets up window size
+#
+##############################################################################
 
-
-##Closes window and opens window run
 def Run():
     root.destroy()
     if (sys.platform == 'linux'):
@@ -22,9 +53,6 @@ def Run():
 class App(Frame):
     def __init__(self, root):
 
-        ##Start to Create the grid build of GUI##
-
-        ##Sets up the frame of the window as well as adding a scrollbar
         Frame.__init__(self, root)
         self.canvas = Canvas(root, borderwidth=0, background="white")
         self.frame = Frame(self.canvas, background="#ffffff")
@@ -39,20 +67,16 @@ class App(Frame):
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
 
-        ##Go To Build Mandatory Section
         self.MANDATORY()
         return
 
     def MANDATORY(self):
 
-        x = 0  #current row for grid
-
-        ##Returns to run where you can select another module of the GUI
+        x = 0
         self.run_butt = Button(self.frame, text="BACK", command=Run)
         self.run_butt.grid(row=x, column=0, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Title of Deconseq Portion of GUI##
         self.file1_title = Label(
             self.frame, text="Sickle", font="Times 24 bold", bg="white").grid(
                 row=x,
@@ -63,7 +87,6 @@ class App(Frame):
                 sticky="we")
         x += 1
 
-        ##Title for Mandatory Section
         self.fill_mandat = Label(
             self.frame,
             text=
@@ -74,7 +97,6 @@ class App(Frame):
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Title for Mandatory Section
         self.fill_mandat = Label(
             self.frame,
             text="***Must fill all MANDATORY sections***",
@@ -84,7 +106,6 @@ class App(Frame):
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##PE or SE option
         self.var_se_pe = StringVar()
         self.var_se_pe.set("Pick SE or PE       ")
         self.SE_PE = OptionMenu(
@@ -102,7 +123,6 @@ class App(Frame):
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Quality Value option
         self.var_qual = StringVar()
         self.var_qual.set("Pick Quality Type")
         self.Qual = OptionMenu(self.frame, self.var_qual,
@@ -117,7 +137,6 @@ class App(Frame):
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Input Filename option
         self.var_filename = ''
         self.browse_file1 = Button(
             self.frame,
@@ -134,7 +153,6 @@ class App(Frame):
         self.label_filename.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##If PE, Reverse Input Filename
         self.var_reverse_file = ''
         self.browse_file2 = Button(
             self.frame,
@@ -145,18 +163,17 @@ class App(Frame):
         self.label_reverse = Label(
             self.frame,
             text=
-            "MANDATORY IF: you have separate files for forward and reverse reads, input reverse filename",
+            "MANDATORY IF: you have separate files for forward and reverse reads, input reverse filename.",
             relief=FLAT,
             bg="white")
         self.label_reverse.grid(
             row=x, column=1, padx=5, pady=(5, 60), sticky="w")
         x += 1
-        self.browse_file2.grid_remove()  # only added when PE is checked
+        self.browse_file2.grid_remove()
         self.label_reverse.grid_remove()
 
-        #Pick Options to Change Section
         self.var_options = StringVar()
-        self.var_options.set("Display Options")  # default
+        self.var_options.set("Display Options")
         self.options = OptionMenu(
             self.frame,
             self.var_options,
@@ -172,19 +189,16 @@ class App(Frame):
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Run Button which goes to function: Check_Options when clicked
         self.run_button = Button(
             self.frame, text="Run Sickle", command=self.Check_Options)
         self.run_button.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Go To Build Optional Section
         self.OPTIONAL(x)
         return
 
     def OPTIONAL(self, x):
 
-        ##Title for Optional Section
         self.label_L = Label(
             self.frame,
             text="**OPTIONAL SECTION**",
@@ -195,7 +209,6 @@ class App(Frame):
             row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        ##Output Filename Section
         self.var_out_file = StringVar()
         self.out_file = Entry(
             self.frame, textvariable=self.var_out_file, width=29)
@@ -209,7 +222,6 @@ class App(Frame):
         self.out_file_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##If PE, Reverse Output Filename
         self.var_reverse_output = StringVar()
         self.reverse_out = Entry(
             self.frame, textvariable=self.var_reverse_output, width=29)
@@ -218,16 +230,15 @@ class App(Frame):
         self.label_reverse_out = Label(
             self.frame,
             text=
-            "OPTIONAL FOR: If you have separate files for forward and reverse reads, input reverse Output Filename",
+            "OPTIONAL FOR: If you have separate files for forward and reverse reads, input reverse Output Filename. Must input singles file as well.",
             relief=FLAT,
             bg="white")
         self.label_reverse_out.grid(
             row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
-        self.reverse_out.grid_remove()  # only added when PE is checked
+        self.reverse_out.grid_remove()
         self.label_reverse_out.grid_remove()
 
-        ##If PE, Trimmed Singles Filename
         self.var_singles = StringVar()
         self.singles_out = Entry(
             self.frame, textvariable=self.var_singles, width=29)
@@ -241,10 +252,9 @@ class App(Frame):
             bg="white")
         self.label_singles.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
-        self.singles_out.grid_remove()  # only added when PE is checked
+        self.singles_out.grid_remove()
         self.label_singles.grid_remove()
 
-        ##Quality Value Threshold option
         self.var_q_num = StringVar()
         self.q_num_entry = Entry(
             self.frame, textvariable=self.var_q_num, width=29)
@@ -259,7 +269,6 @@ class App(Frame):
         self.q_num_entry_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Length Threshold option
         self.var_L_num = StringVar()
         self.L_num_entry = Entry(
             self.frame, textvariable=self.var_L_num, width=29)
@@ -274,7 +283,6 @@ class App(Frame):
         self.L_num_entry_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Truncation Value option
         self.var_n = IntVar()
         self.n_button = Checkbutton(
             self.frame, text="-n", variable=self.var_n, bg="white")
@@ -287,7 +295,6 @@ class App(Frame):
         self.n_button_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##Single Output File for Interleaved Reads
         self.var_m = IntVar()
         self.m_button = Checkbutton(
             self.frame, text="-M", variable=self.var_m, bg="white")
@@ -295,15 +302,14 @@ class App(Frame):
         self.label_m = Label(
             self.frame,
             text=
-            "OPTIONAL: If you have one file with interleaved reads and you want ONLY one interleaved file as output",
+            "OPTIONAL: If you have one file with interleaved reads and you want ONLY one interleaved file as output. Cannot be used with singles file.",
             relief=FLAT,
             bg="white")
         self.label_m.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
-        self.m_button.grid_remove()  # only added when PE is checked
+        self.m_button.grid_remove()
         self.label_m.grid_remove()
 
-        ##No Five Prime Trimming option
         self.var_x = IntVar()
         self.x_button = Checkbutton(
             self.frame, text="-x", variable=self.var_x, bg="white")
@@ -316,7 +322,6 @@ class App(Frame):
         self.x_button_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
 
-        ##G-Zip option
         self.var_g = IntVar()
         self.g_button = Checkbutton(
             self.frame, text="-g", variable=self.var_g, bg="white")
@@ -331,7 +336,6 @@ class App(Frame):
 
         self.OPTIONS(x)
 
-        ##Error Output To Screen Label
         self.err = StringVar()
         self.err_message = Message(
             self.frame, text=self.err.get(), aspect=1000, bg="white")
@@ -340,9 +344,6 @@ class App(Frame):
         return
 
     def OPTIONS(self, x):
-
-        ##When creating the display it will remove all options from the screen initially, however when an option
-        ##is picked to change, it will display those specific options to change
 
         self.out_file.grid_remove()
         self.reverse_out.grid_remove()
@@ -387,17 +388,9 @@ class App(Frame):
 
     def Check_Options(self):
 
-        ##Looks at the options that have been checked off and creates a string##
-        ##Set the start of the string
         functions.globstring = "./GenCoF-master/Sickle/sickle-master/sickle"
-        ##Set errors to nothing
-        ##If errors present add on string of errors
         errors = ''
 
-        ##Runs through all the options and creates string for the options that have been marked by the user##
-        ##If mandatory options not checked or wrong input to an option then add to errors##
-
-        ##If Paired-end file
         if (self.var_se_pe.get() == "Paired-end"):
             functions.args_se_pe(self.var_se_pe.get())
             if (self.var_g.get()):
@@ -418,7 +411,6 @@ class App(Frame):
                     errors += "Enter quality type\n"
 
                 if (self.var_m.get()):
-                    ##If Only Want One Output File
                     if (self.var_g.get()):
                         if (self.var_out_file.get() == '' or
                                 self.var_out_file.get() == 'Output Filename'):
@@ -440,7 +432,6 @@ class App(Frame):
                             functions.inter_big_m(self.var_out_file.get())
 
                 else:
-                    ##If Want Trimmed Singles File Too
                     if (self.var_g.get()):
                         if (self.var_out_file.get() == '' or
                                 self.var_out_file.get() == 'Output Filename'):
@@ -481,7 +472,6 @@ class App(Frame):
                             functions.trimmed(self.var_singles.get())
 
             else:
-                ##Forward and Reverse Files have Been Inputted
                 if ((".fastq" not in self.var_filename
                      and ".fq" not in self.var_filename)
                         or (self.var_filename == '')):
@@ -560,7 +550,6 @@ class App(Frame):
                     else:
                         functions.trimmed(self.var_singles.get())
 
-        ##If it's a Single-End File
         elif (self.var_se_pe.get() == "Single-end            "):
             functions.args_se_pe(self.var_se_pe.get())
 
@@ -596,7 +585,6 @@ class App(Frame):
                 else:
                     functions.output(self.var_out_file.get())
 
-        ##If SE or PE not Inputted
         else:
             errors += "Enter SE or PE\n"
 
@@ -612,10 +600,6 @@ class App(Frame):
         if (self.var_n.get()):
             functions.args_se_and_pe_non_man("-n", "")
 
-        ##If there are no errors than run the string with Sickle
-        ##If you need to compile the file it compiles it for you as long as makefile is there
-        ##Put the Output to the Screen from the program run
-        ##If there are errors put them to the screen
         self.err_message.config(text="Running....", font="Times 18")
         self.update()
         if (errors == ''):
@@ -665,8 +649,7 @@ class App(Frame):
 
         return
 
-    def SE_and_PE(self, another):  #
-        ##Function that adds to Input File Options if PE is Picked
+    def SE_and_PE(self, another):
 
         if (self.var_se_pe.get() == "Paired-end"
                 and self.var_options.get() == "Display"):
@@ -707,29 +690,22 @@ class App(Frame):
 
         return
 
-    ##Gives ability to Browse for a file and sets to a variable
     def browse_file_input1(self):
         self.var_filename = filedialog.askopenfilename()
         return
 
-    ##Gives ability to Browse for a file and sets to a variable
     def browse_file_input2(self):
         self.var_reverse_file = filedialog.askopenfilename()
         return
 
     def onFrameConfigure(self, event):
-        #Reset the scroll region to encompass the inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         return
 
 
 if __name__ == "__main__":
-    ##Start of App
-    ##Creates Window and goes to the Mainloop of the class and creates the App
     root = Tk()
     root.wm_title("SICKLE")
     root.geometry('975x575')
     App(root).pack(side="top", fill="both", expand=True)
     root.mainloop()
-
-#add comments

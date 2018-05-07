@@ -1,25 +1,32 @@
 import tkinter
 from tkinter import *
 import subprocess
-import os, sys
-
-basedir = sys.executable
-last_dir = basedir.rfind("/")
-basedir = basedir[:last_dir]
-
-os.chdir(basedir)
+import os
+import sys
 
 ##############################################################################
-# App - Sets
+# 
+# App - Sets the window and grid of the app
 #
+## Functions within App:
+## __init__ - Sets up the display of GenCoF's main interface through
+## buttons and labels
+##
+## onFrameConfigure - Creates a scrollbar
+##
+## error - Prints error to display if file can't be found
+## 
+## Sickle, Join, Split, Bowtie2, Bowtie2-build, Prinseq - Close GenCoF and open
+## their respective apps through python3.
+# 
+# __name__ - Sets up base directory, builds App and sets up window size
+#
+##############################################################################
 
 
 class App(Frame):
     def __init__(self, root):
 
-        ##Start to Create the grid build of GUI##
-
-        ##Sets up the frame of the window as well as adding a scrollbar
         Frame.__init__(self, root)
         self.canvas = Canvas(root, borderwidth=0, background="white")
         self.frame = Frame(self.canvas, background="#ffffff")
@@ -34,7 +41,6 @@ class App(Frame):
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
 
-        ##Title of Deconseq Portion of GUI##
         self.file1_title = Label(
             self.frame, text="""GenCoF""", font="Times 24 bold",
             bg="white").grid(
@@ -45,7 +51,6 @@ class App(Frame):
                 pady=(5, 5),
                 sticky="we")
 
-        ##Title of Deconseq Portion of GUI##
         self.file1_title = Label(
             self.frame,
             text="""Genomic Contamination Filtering Pipeline""",
@@ -247,7 +252,6 @@ It should be possible to build Bowtie 2 on most vanilla Linux installations or o
         b.grid(row=18, column=0, sticky="w", columnspan=2)
 
     def onFrameConfigure(self, event):
-        #Reset the scroll region to encompass the inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         return
 
@@ -333,10 +337,16 @@ It should be possible to build Bowtie 2 on most vanilla Linux installations or o
 
 
 if __name__ == "__main__":
-    ##Start of App
-    ##Creates Window and goes to the Mainloop of the class and creates the App
+    
+    basedir = sys.executable
+    last_dir = basedir.rfind("/")
+    basedir = basedir[:last_dir]
+
+    os.chdir(basedir)
+
     root = Tk()
     root.wm_title("GenCoF")
     root.geometry('950x550')
+
     app = App(root).pack(side="top", fill="both", expand=True)
     root.mainloop()
