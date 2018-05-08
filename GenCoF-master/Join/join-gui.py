@@ -158,7 +158,6 @@ class App(Frame):
             globstring += "JOINED_OUTPUT"
         else:
             globstring += self.var_out_file.get()
-        print(globstring + "\n")
 
         if (self.var_file_type.get() == "Pick File Type"):
             errors += "Enter Input File type\n"
@@ -197,7 +196,6 @@ class App(Frame):
 
     def onFrameConfigure(self, event):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
         return
 
 
