@@ -101,7 +101,7 @@ class App(Frame):
                                         row=x, column=0, padx=5, pady=5)
         Label(
             self.frame,
-            text="MANDATORY: File type as input ",
+            text="File type as input ",
             relief=FLAT,
             bg="white").grid(
                 row=x, column=1, padx=5, pady=5, sticky="w")

@@ -121,7 +121,7 @@ class App(Frame):
 
         self.fill_mandat = Label(
             self.frame,
-            text="***Must fill all MANDATORY sections***",
+            text="***Must input file, sequence type and database(top 3 sections).  All other options can be left as default.***",
             relief=FLAT,
             font="Times 16 bold",
             bg="white").grid(
@@ -140,7 +140,7 @@ class App(Frame):
         self.SE_PE.grid(row=x, column=0, padx=5, pady=5)
         Label(
             self.frame,
-            text="MANDATORY: single-end or paired-end sequence",
+            text="Single-end or paired-end sequence",
             relief=FLAT,
             bg="white").grid(
                 row=x, column=1, padx=5, pady=5, sticky="w")
@@ -156,7 +156,7 @@ class App(Frame):
         self.label_filename = Label(
             self.frame,
             text=
-            """MANDATORY: Input File: Input filename with .fastq or .fasta at end that contains query sequences
+            """Input File: Input filename with .fastq or .fasta at end that contains query sequences
 If paired end files enter forward strand here.""",
             relief=FLAT,
             bg="white")
@@ -173,7 +173,7 @@ If paired end files enter forward strand here.""",
         self.label_filename2 = Label(
             self.frame,
             text=
-            """MANDATORY: Input File: Input filename with .fastq or .fasta at end that contains query sequences for paired end input
+            """Input File: Input filename with .fastq or .fasta at end that contains query sequences for paired end input
 Enter reverse strand into this file input and forward strand into the first file input.""",
             relief=FLAT,
             bg="white")
@@ -190,7 +190,7 @@ Enter reverse strand into this file input and forward strand into the first file
         Label(
             self.frame,
             text=
-            """MANDATORY: Input Database Name(s): Names are according to their basenames. 
+            """Input Database Name(s): Names are according to their basenames. 
 For example for the database files hg.1.bt2, hg.2.bt2 ... hg.rev.1.bt2, hg.rev.2.bt2 use "hg" as input. 
 Make sure all database files are in the folder bowtie2-2.3.4.
 For human genome use hg(version hs_ref_GRCh38_p7 from NCBI). Filters out
@@ -295,7 +295,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.out_unaligned_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Filename of reads that didn't align to index. Defaults to 'unaligned'.",
+            "Filename of reads that didn't align to index. Defaults to 'unaligned'.",
             relief=FLAT,
             bg="white")
         self.out_unaligned_lab.grid(
@@ -310,7 +310,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.out_aligned_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Filename of reads that aligned to index. Defaults to 'aligned'.",
+            "Filename of reads that aligned to index. Defaults to 'aligned'.",
             relief=FLAT,
             bg="white")
         self.out_aligned_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -323,7 +323,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.var_out_sam.set('Output Sam Filename')
         self.out_sam_lab = Label(
             self.frame,
-            text="OPTIONAL: File for SAM output. Defaults to 'SamFile'.",
+            text="File for SAM output. Defaults to 'SamFile'.",
             relief=FLAT,
             bg="white")
         self.out_sam_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -352,7 +352,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.N_lab = Label(
             self.frame,
             text=
-            """OPTIONAL: Max integer mismatches in seed alignment; can be 0 or 1. Default is 0.""",
+            """Max integer mismatches in seed alignment; can be 0 or 1. Default is 0.""",
             relief=FLAT,
             justify=LEFT,
             bg="white")
@@ -366,7 +366,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.length_lab = Label(
             self.frame,
             text=
-            """OPTIONAL: Length of seed substrings; must be >3 and <32. Default is 22.""",
+            """Length of seed substrings; must be >3 and <32. Default is 22.""",
             relief=FLAT,
             justify=LEFT,
             bg="white")
@@ -380,7 +380,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.i_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Interval between seed substrings w/r/t read length. Default is S,1,1.15.",
+            "Interval between seed substrings w/r/t read length. Default is S,1,1.15.",
             relief=FLAT,
             bg="white")
         self.i_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -393,7 +393,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.n_ceil_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Func for max integer of non_A/C/G/Ts permitted in aln. Default is L,0,0.15.",
+            "Func for max integer of non_A/C/G/Ts permitted in aln. Default is L,0,0.15.",
             relief=FLAT,
             bg="white")
         self.n_ceil_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -406,7 +406,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.dpad_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Include integer of extra ref chars on sides of DP table. Default is 15.",
+            "Include integer of extra ref chars on sides of DP table. Default is 15.",
             relief=FLAT,
             bg="white")
         self.dpad_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -419,7 +419,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.gbar_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Disallow gaps within integer of nucs of read extremes. Default is 4.",
+            "Disallow gaps within integer of nucs of read extremes. Default is 4.",
             relief=FLAT,
             bg="white")
         self.gbar_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -434,7 +434,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.ignore_quals_button.grid(row=x, column=0, padx=5, pady=5)
         self.ignore_quals_lab = Label(
             self.frame,
-            text="OPTIONAL: Treat all quality values as 30 on Phred scale.",
+            text="Treat all quality values as 30 on Phred scale.",
             relief=FLAT,
             bg="white")
         self.ignore_quals_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -446,7 +446,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.nofw_button.grid(row=x, column=0, padx=5, pady=5)
         self.nofw_lab = Label(
             self.frame,
-            text="OPTIONAL: Do not align forward (original) version of read.",
+            text="Do not align forward (original) version of read.",
             relief=FLAT,
             bg="white")
         self.nofw_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -458,7 +458,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.norc_button.grid(row=x, column=0, padx=5, pady=5)
         self.norc_lab = Label(
             self.frame,
-            text="OPTIONAL: Do not align reverse complement version of read.",
+            text="Do not align reverse complement version of read.",
             relief=FLAT,
             bg="white")
         self.norc_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -474,7 +474,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.no_mm_upfront_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Do not allow 1 mismatch alignments before attempting to scan for the optimal seeded alignments.",
+            "Do not allow 1 mismatch alignments before attempting to scan for the optimal seeded alignments.",
             relief=FLAT,
             bg="white")
         self.no_mm_upfront_lab.grid(
@@ -491,7 +491,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.qc_filter_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Filter out reads that are bad according to QSEQ filter.",
+            "Filter out reads that are bad according to QSEQ filter.",
             relief=FLAT,
             bg="white")
         self.qc_filter_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -518,7 +518,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.ma_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Match bonus. Default is 0 for end to end, 2 for local",
+            "Match bonus. Default is 0 for end to end, 2 for local",
             relief=FLAT,
             bg="white")
         self.ma_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -531,7 +531,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.mp_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Max penalty for mismatch; lower qual = lower penalty. Default is 6.",
+            "Max penalty for mismatch; lower qual = lower penalty. Default is 6.",
             relief=FLAT,
             bg="white")
         self.mp_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -544,7 +544,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.np_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Penalty for non-A/C/G/Ts in read/ref. Default is 1.",
+            "Penalty for non-A/C/G/Ts in read/ref. Default is 1.",
             relief=FLAT,
             bg="white")
         self.np_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -557,7 +557,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.rdg_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Read gap open and extend penalties respectively. Default is 5,3.",
+            "Read gap open and extend penalties respectively. Default is 5,3.",
             relief=FLAT,
             bg="white")
         self.rdg_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -570,7 +570,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.rfg_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Reference gap open and extend penalties respectively. Default is 5,3.",
+            "Reference gap open and extend penalties respectively. Default is 5,3.",
             relief=FLAT,
             bg="white")
         self.rfg_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -583,7 +583,7 @@ Default is end to end which is entire read must align; no clipping.""",
         self.var_score_min.set('Min Alignment: Input String')
         self.score_min_lab = Label(
             self.frame,
-            text="""OPTIONAL: Min acceptable alignment score w/r/t read length 
+            text="""Min acceptable alignment score w/r/t read length 
 Default is G,20,8 for local, L,-0.6,-0.6 for end-to-end""",
             relief=FLAT,
             bg="white",
@@ -678,7 +678,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.D_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Give up extending after integer of failed extends in a row. Default is 15.",
+            "Give up extending after integer of failed extends in a row. Default is 15.",
             relief=FLAT,
             bg="white")
         self.D_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -691,7 +691,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.R_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: For reads w/ repetitive seeds, try integer sets of seeds. Default is 2.",
+            "For reads w/ repetitive seeds, try integer sets of seeds. Default is 2.",
             relief=FLAT,
             bg="white")
         self.R_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -705,7 +705,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.threads_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Number of alignment threads to launch. Default is 1.",
+            "Number of alignment threads to launch. Default is 1.",
             relief=FLAT,
             bg="white")
         self.threads_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -718,7 +718,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.mm_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Use memory-mapped I/O for index; many 'bowtie's can share.",
+            "Use memory-mapped I/O for index; many 'bowtie's can share.",
             relief=FLAT,
             bg="white")
         self.mm_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -744,7 +744,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.var_minins.set('Fragment Length: Input Integer')
         self.minins_lab = Label(
             self.frame,
-            text="OPTIONAL: Minimum fragment length. Default is 0.",
+            text="Minimum fragment length. Default is 0.",
             relief=FLAT,
             bg="white")
         self.minins_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -756,7 +756,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.var_maxins.set('Fragment Length: Input Integer')
         self.maxins_lab = Label(
             self.frame,
-            text="OPTIONAL: Maximum fragment length. Default is 500.",
+            text="Maximum fragment length. Default is 500.",
             relief=FLAT,
             bg="white")
         self.maxins_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -771,7 +771,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.no_mixed_button.grid(row=x, column=0, padx=5, pady=5)
         self.no_mixed_lab = Label(
             self.frame,
-            text="OPTIONAL: Suppress unpaired alignments for paired reads.",
+            text="Suppress unpaired alignments for paired reads.",
             relief=FLAT,
             bg="white")
         self.no_mixed_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -786,7 +786,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.no_discordant_button.grid(row=x, column=0, padx=5, pady=5)
         self.no_discordant_lab = Label(
             self.frame,
-            text="OPTIONAL: Suppress discordant alignments for paired reads.",
+            text="Suppress discordant alignments for paired reads.",
             relief=FLAT,
             bg="white")
         self.no_discordant_lab.grid(
@@ -802,7 +802,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.dovetail_button.grid(row=x, column=0, padx=5, pady=5)
         self.dovetail_lab = Label(
             self.frame,
-            text="OPTIONAL: Concordant when mates extend past each other.",
+            text="Concordant when mates extend past each other.",
             relief=FLAT,
             bg="white")
         self.dovetail_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -818,7 +818,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.no_contain_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Not concordant when one mate alignment contains other.",
+            "Not concordant when one mate alignment contains other.",
             relief=FLAT,
             bg="white")
         self.no_contain_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -833,7 +833,7 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
         self.no_overlap_button.grid(row=x, column=0, padx=5, pady=5)
         self.no_overlap_lab = Label(
             self.frame,
-            text="OPTIONAL: Not concordant when mates overlap at all.",
+            text="Not concordant when mates overlap at all.",
             relief=FLAT,
             bg="white")
         self.no_overlap_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")

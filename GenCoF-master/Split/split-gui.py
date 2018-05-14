@@ -90,15 +90,6 @@ class App(Frame):
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
-        self.fill_mandat = Label(
-            self.frame,
-            text="***Must fill all MANDATORY sections***",
-            relief=FLAT,
-            font="Times 16 bold",
-            bg="white").grid(
-                row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
-        x += 1
-
         self.var_filename = ''
         self.browse_file = Button(
             self.frame,
@@ -109,7 +100,7 @@ class App(Frame):
         self.label_filename = Label(
             self.frame,
             text=
-            "MANDATORY: Input File: Input file that is in fastq or fasta format",
+            "Input File: Input file that is in fastq or fasta format",
             relief=FLAT,
             bg="white")
         self.label_filename.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -122,7 +113,7 @@ class App(Frame):
                                         row=x, column=0, padx=5, pady=5)
         Label(
             self.frame,
-            text="MANDATORY: File type as input ",
+            text="File type as input ",
             relief=FLAT,
             bg="white").grid(
                 row=x, column=1, padx=5, pady=5, sticky="w")

@@ -111,7 +111,7 @@ class App(Frame):
 
         self.fill_mandat = Label(
             self.frame,
-            text="***Must fill all MANDATORY sections***",
+            text="***Must input file and pick at least one option to change***",
             relief=FLAT,
             font="Times 20 bold",
             bg="white").grid(
@@ -132,7 +132,7 @@ class App(Frame):
         self.file_type.grid(row=x, column=0, padx=5, pady=5)
         Label(
             self.frame,
-            text="MANDATORY: single-end or paired-end sequence trimming",
+            text="Single-end or paired-end sequence trimming",
             relief=FLAT,
             bg="white").grid(
                 row=x, column=1, padx=5, pady=5, sticky="w")
@@ -148,7 +148,7 @@ class App(Frame):
         self.label_filename = Label(
             self.frame,
             text=
-            "MANDATORY: Input File. Avoid spaces with folder names as this can cause errors.",
+            "Input File. Avoid spaces with folder names as this can cause errors.",
             relief=FLAT,
             bg="white")
         self.label_filename.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -166,7 +166,7 @@ class App(Frame):
         self.label_filename2 = Label(
             self.frame,
             text=
-            """MANDATORY: Input Reverse Strand File. The sequence identifiers for two matching
+            """Input Reverse Strand File. The sequence identifiers for two matching
 paired-end sequences in separate files can be marked by
 /1 and /2, or _L and _R, or _left and _right,
 or must have the exact same identifier in both input files. 
@@ -186,7 +186,7 @@ Singletons are allowed in the input files.""",
         self.phred_button.grid(row=x, column=0, padx=5, pady=5)
         self.phred_lab = Label(
             self.frame,
-            text="MANDATORY: Quality data in FASTQ file is in Phred+64 format ",
+            text="Quality data in FASTQ file is in Phred+64 format ",
             relief=FLAT,
             bg="white")
         self.phred_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")

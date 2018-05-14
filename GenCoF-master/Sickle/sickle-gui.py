@@ -99,7 +99,7 @@ class App(Frame):
 
         self.fill_mandat = Label(
             self.frame,
-            text="***Must fill all MANDATORY sections***",
+            text="***Must fill all non-optional sections***",
             relief=FLAT,
             font="Times 20 bold",
             bg="white").grid(
@@ -117,7 +117,7 @@ class App(Frame):
         self.SE_PE.grid(row=x, column=0, padx=5, pady=5)
         Label(
             self.frame,
-            text="MANDATORY: single-end or paired-end sequence trimming",
+            text="Single-end or paired-end sequence trimming",
             relief=FLAT,
             bg="white").grid(
                 row=x, column=1, padx=5, pady=5, sticky="w")
@@ -131,7 +131,7 @@ class App(Frame):
                                    row=x, column=0, padx=5, pady=5)
         Label(
             self.frame,
-            text="MANDATORY: Type of quality values ",
+            text="Type of quality values ",
             relief=FLAT,
             bg="white").grid(
                 row=x, column=1, padx=5, pady=5, sticky="w")
@@ -147,7 +147,7 @@ class App(Frame):
         self.label_filename = Label(
             self.frame,
             text=
-            "MANDATORY: Input File: Input filename with .fastq or .fq at end",
+            "Input File: Input filename with .fastq or .fq at end",
             relief=FLAT,
             bg="white")
         self.label_filename.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -216,7 +216,7 @@ class App(Frame):
         self.var_out_file.set('Output Filename')
         self.out_file_lab = Label(
             self.frame,
-            text="OPTIONAL: Output File: Will default to TRIMMED_OUTPUT.fastq",
+            text="Output File: Will default to TRIMMED_OUTPUT.fastq",
             relief=FLAT,
             bg="white")
         self.out_file_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -230,7 +230,7 @@ class App(Frame):
         self.label_reverse_out = Label(
             self.frame,
             text=
-            "OPTIONAL FOR: If you have separate files for forward and reverse reads, input reverse Output Filename. Must input singles file as well.",
+            "If you have separate files for forward and reverse reads, input reverse Output Filename. Must input singles file as well.",
             relief=FLAT,
             bg="white")
         self.label_reverse_out.grid(
@@ -247,7 +247,7 @@ class App(Frame):
         self.label_singles = Label(
             self.frame,
             text=
-            "OPTIONAL: Trimmed Singles file output will default to TRIMMED_SINGLES.fastq",
+            "Trimmed Singles file output will default to TRIMMED_SINGLES.fastq",
             relief=FLAT,
             bg="white")
         self.label_singles.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -263,7 +263,7 @@ class App(Frame):
         self.q_num_entry_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Threshold for trimming based on average quality in a window. Default = 20.",
+            "Threshold for trimming based on average quality in a window. Default = 20.",
             relief=FLAT,
             bg="white")
         self.q_num_entry_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -277,7 +277,7 @@ class App(Frame):
         self.L_num_entry_lab = Label(
             self.frame,
             text=
-            "OPTIONAL: Threshold to keep a read based on length after trimming. Default = 20.",
+            "Threshold to keep a read based on length after trimming. Default = 20.",
             relief=FLAT,
             bg="white")
         self.L_num_entry_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -289,7 +289,7 @@ class App(Frame):
         self.n_button.grid(row=x, column=0, padx=5, pady=5)
         self.n_button_lab = Label(
             self.frame,
-            text="OPTIONAL: Truncate sequences at position of first N.",
+            text="Truncate sequences at position of first N.",
             relief=FLAT,
             bg="white")
         self.n_button_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -302,7 +302,7 @@ class App(Frame):
         self.label_m = Label(
             self.frame,
             text=
-            "OPTIONAL: If you have one file with interleaved reads and you want ONLY one interleaved file as output. Cannot be used with singles file.",
+            "If you have one file with interleaved reads and you want ONLY one interleaved file as output. Cannot be used with singles file.",
             relief=FLAT,
             bg="white")
         self.label_m.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -316,7 +316,7 @@ class App(Frame):
         self.x_button.grid(row=x, column=0, padx=5, pady=5)
         self.x_button_lab = Label(
             self.frame,
-            text="OPTIONAL: Don't do five prime trimming.",
+            text="Don't do five prime trimming.",
             relief=FLAT,
             bg="white")
         self.x_button_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")
@@ -328,7 +328,7 @@ class App(Frame):
         self.g_button.grid(row=x, column=0, padx=5, pady=5)
         self.g_button_lab = Label(
             self.frame,
-            text="OPTIONAL: Output gzipped files.",
+            text="Output gzipped files.",
             relief=FLAT,
             bg="white")
         self.g_button_lab.grid(row=x, column=1, padx=5, pady=5, sticky="w")

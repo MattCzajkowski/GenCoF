@@ -91,7 +91,7 @@ class App(Frame):
             self.frame,
             text=
             """Before running it is recommended to look at https://support.illumina.com/sequencing/sequencing_software/igenome.html
-for reference files to download as creating reference files from scratch can be time intensive.""",
+for reference files to download, as creating reference files from scratch can be time intensive.""",
             font="Times 16",
             bg="white").grid(
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
