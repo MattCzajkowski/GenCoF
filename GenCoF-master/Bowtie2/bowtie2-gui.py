@@ -6,6 +6,18 @@ from tkinter import filedialog
 from tkinter import *
 
 ##############################################################################
+
+#__author__ = "Matt Czajkowski" 
+#__copyright__ = "Copyright 2018, Evolve Biosystems"
+#__credits__ = ["Matt Czajkowski", "Daniel Vance", "Steve Frese", "Giorgio Casaburi"]
+#__license__ = "GPL v3.0"
+#__version__ = "1.0.0"
+#__maintainer__ = "Matt Czajkowski"
+#__email__ = "mczajkowski@evolvebiosystems.com"
+
+##############################################################################
+
+##############################################################################
 # 
 # is_int - Checks if argument is an integer
 # 
@@ -190,13 +202,14 @@ Enter reverse strand into this file input and forward strand into the first file
         Label(
             self.frame,
             text=
-            """Input Database Name(s): Names are according to their basenames. 
+            """Input Database Name(s): Names are according to their basenames in the folder bowtie2-2.3.4.
 For example for the database files hg.1.bt2, hg.2.bt2 ... hg.rev.1.bt2, hg.rev.2.bt2 use "hg" as input. 
 Make sure all database files are in the folder bowtie2-2.3.4.
 For human genome use hg(version hs_ref_GRCh38_p7 from NCBI). Filters out
 human DNA from samples and leaves what is leftover
 (See http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml for adding databases.
-Common databases can be downloaded easily through iGenomes)""",
+Common databases can be downloaded easily through iGenomes.
+See README.md for tutorial)""",
             relief=FLAT,
             justify=LEFT,
             bg="white").grid(
@@ -1186,13 +1199,12 @@ very-sensitive-local -D 20 -R 3 -N 0 -L 20 -i S,1,0.50""",
                 result, error = p.communicate()
                 if (error.decode('utf-8') == ''):
                     self.err_message.config(
-                        text="OUTPUT: \n" + result.decode('utf-8'),
+                        text="\n" + result.decode('utf-8'),
                         font="Times 18")
                 else:
                     self.err_message.config(
-                        text='\nERRORS: \n' + error.decode('utf-8'),
-                        font="Times 18",
-                        fg='dark red')
+                        text='\n' + error.decode('utf-8'),
+                        font="Times 18")
             else:
                 self.err_message.config(
                     text="ERRORS: \n Makefile not in correct directory",

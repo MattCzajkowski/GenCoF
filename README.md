@@ -8,7 +8,7 @@ This project requires:
 * Python 3 with module Tkinter
 * GNU like environment with GCC, GNU Make etc.
 * Perl Version 5.18 or greater
-* Human Genomic Sequences are required as well if you plan on removing human sequences from your reads. This version doesn't include them, however, they can be downloaded from the Bowtie2 NCBI databases which can be found at https://support.illumina.com/sequencing/sequencing_software/igenome.html. Many other common reference genomes can be downloaded from here to decontaminate your sequences.  Once downloaded just put them in the GenCoF-master/Bowtie2/bowtie2-2.3.4.1 folder and you are ready to decontaminate your samples through GenCoF. If you would like to build your own reference database(in case your genome isn't located on Bowtie2's website), you can use bowtie2-build within GenCoF to build a database.
+* Human Genomic Sequences are required as well if you plan on removing human sequences from your reads. This version doesn't include them, however, they can be downloaded from the Bowtie2 NCBI databases which can be found at https://support.illumina.com/sequencing/sequencing_software/igenome.html. Many other common reference genomes can be downloaded from here to decontaminate your sequences. See Usage below for a tutorial.
 
 Citations are provided at the top of each application.
 
@@ -46,6 +46,8 @@ Running GenCoF is easy as all descriptions for each program option are labeled r
 Always run each application by starting at GenCoF and navigating to the appropriate application. If you are running on MacOS, the terminal that opens with the program is necessary as the program uses it to run the applications. If you would like to exit the program at any time such as a running process you can do so by exiting the terminal. README's for each program are located within their respective program folders, however, they do not necessarily correspond well to the graphical user interface.
 
 For large files(> 1GB) it may take significant time to run the Bowtie2 application so it is recommended to either thread the files depending on the amount of cores your computer has or to split the files up and join them back together once Bowtie2 has been run.
+
+To create reference databases from the site https://support.illumina.com/sequencing/sequencing_software/igenome.html click on the build you would like to download from.  Once it is downloaded, open it and unpack it according the file type downloaded (ie. through an archive manager by double clicking on the file or via the command line with 'tar xvf filename.tar', 'unzip filename.zip', 'gunzip filename.gz'...). Once done find the 'Bowtie2Index' folder within the reference folder and move the contents of that folder (the .fa file isn't necessary) to the folder path GenCoF-master/Bowtie2/bowtie2-2.3.4.1 and you are ready to decontaminate your samples through GenCoF. Rename your folder accordingly. If you would like to build your own reference database(in case your genome isn't located on Bowtie2's website), you can use bowtie2-build within GenCoF to build a database.
 
 ## Output
 

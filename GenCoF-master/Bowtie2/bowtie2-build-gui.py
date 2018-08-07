@@ -6,6 +6,18 @@ from tkinter import filedialog
 from tkinter import *
 
 ##############################################################################
+
+#__author__ = "Matt Czajkowski" 
+#__copyright__ = "Copyright 2018, Evolve Biosystems"
+#__credits__ = ["Matt Czajkowski", "Daniel Vance", "Steve Frese", "Giorgio Casaburi"]
+#__license__ = "GPL v3.0"
+#__version__ = "1.0.0"
+#__maintainer__ = "Matt Czajkowski"
+#__email__ = "mczajkowski@evolvebiosystems.com"
+
+##############################################################################
+
+##############################################################################
 # 
 # Run - Closes window and opens GenCoF main
 #
@@ -190,17 +202,15 @@ for reference files to download, as creating reference files from scratch can be
                 result, error = p.communicate()
                 if (error.decode('utf-8') == ''):
                     self.err_message.config(
-                        text="OUTPUT: \n" + result.decode('utf-8'),
+                        text="\n" + result.decode('utf-8'),
                         font="Times 18")
                 else:
                     self.err_message.config(
-                        text='\nERRORS: \n' + error.decode('utf-8'),
-                        font="Times 18",
-                        fg='dark red')
+                        text='\n' + error.decode('utf-8'),
+                        font="Times 18")
             else:
                 self.err_message.config(
                     text="ERRORS: \n Makefile not in correct directory",
-                    fg='dark red',
                     font="Times 18")
         else:
             self.err_message.config(

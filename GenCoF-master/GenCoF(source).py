@@ -5,6 +5,18 @@ import os
 import sys
 
 ##############################################################################
+
+#__author__ = "Matt Czajkowski" 
+#__copyright__ = "Copyright 2018, Evolve Biosystems"
+#__credits__ = ["Matt Czajkowski", "Daniel Vance", "Steve Frese", "Giorgio Casaburi"]
+#__license__ = "GPL v3.0"
+#__version__ = "1.0.0"
+#__maintainer__ = "Matt Czajkowski"
+#__email__ = "mczajkowski@evolvebiosystems.com"
+
+##############################################################################
+
+##############################################################################
 # 
 # App - Sets the window and grid of the app
 #
@@ -165,7 +177,7 @@ and Python3 Tkinter""",
             height=3,
             width=35,
             text="""STEP 3 
-(Create reference files for Bowtie2. Not necessary if database files already in bowtie2-2.3.4.1 folder)""",
+(Create reference files for Bowtie2. Not necessary if already in bowtie2-2.3.4.1 folder)""",
             font="Helvetica 15 bold",
             bg="white")
         b.grid(row=10, column=0, padx=5, pady=0, columnspan=3, sticky="we")
@@ -226,7 +238,7 @@ It should be possible to build Bowtie 2 on most vanilla Linux installations or o
             self.frame,
             height=3,
             width=19,
-            text="""STEP 4 
+            text="""STEP 5 
 (If you used Split)""",
             font="Helvetica 15 bold",
             bg="white")
