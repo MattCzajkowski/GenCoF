@@ -8,6 +8,7 @@ This project requires:
 * Python 3 with module Tkinter
 * GNU like environment with GCC, GNU Make etc.
 * Perl Version 5.18 or greater
+* Thread Building Blocks which is commonly included with many operating systems. If not installed, download from "https://github.com/01org/tbb/releases" and follow the necessary steps to install or if on Mac OS use "brew install tbb" from command line or follow the steps on the following page "http://tbb.readthedocs.io/en/latest/gettingstarted.html" for Linux.
 * Human Genomic Sequences are required as well if you plan on removing human sequences from your reads. This version doesn't include them, however, they can be downloaded from the Bowtie2 NCBI databases which can be found at https://support.illumina.com/sequencing/sequencing_software/igenome.html. Many other common reference genomes can be downloaded from here to decontaminate your sequences. See Usage below for a tutorial.
 
 Citations are provided at the top of each application.
