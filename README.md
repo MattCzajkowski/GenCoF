@@ -9,7 +9,7 @@ This project requires:
 * GNU like environment with GCC, GNU Make etc.
 * Perl Version 5.18 or greater
 * Thread Building Blocks which is commonly included with many operating systems. If not installed, download from "https://github.com/01org/tbb/releases" and follow the necessary steps to install or if on Mac OS use "brew install tbb" from command line or follow the steps on the following page "http://tbb.readthedocs.io/en/latest/gettingstarted.html" for Linux.
-* Human Genomic Sequences are required as well if you plan on removing human sequences from your reads. This version doesn't include them, however, they can be downloaded from the Bowtie2 NCBI databases which can be found at https://support.illumina.com/sequencing/sequencing_software/igenome.html. Many other common reference genomes can be downloaded from here to decontaminate your sequences. See Usage below for a tutorial.
+* Reference Genomic Sequences are required as well if you plan on removing sequences from your reads. Common Bowtie2 reference sequences can be downloaded from the Illumina database which can be found at https://support.illumina.com/sequencing/sequencing_software/igenome.html. Bowtie2-Build provides an instant download button for the NCBI version for the Bowtie2 reference Human Genome(GRCh38).
 
 Citations are provided at the top of each application.
 
@@ -48,11 +48,13 @@ Always run each application by starting at GenCoF and navigating to the appropri
 
 For large files(> 1GB) it may take significant time to run the Bowtie2 application so it is recommended to either thread the files depending on the amount of cores your computer has or to split the files up and join them back together once Bowtie2 has been run.
 
-To create reference databases from the site https://support.illumina.com/sequencing/sequencing_software/igenome.html click on the build you would like to download from.  Once it is downloaded, open it and unpack it according the file type downloaded (ie. through an archive manager by double clicking on the file or via the command line with 'tar xvf filename.tar', 'unzip filename.zip', 'gunzip filename.gz'...). Once done find the 'Bowtie2Index' folder within the reference folder and move the contents of that folder (the .fa file isn't necessary) to the folder path GenCoF-master/Bowtie2/bowtie2-2.3.4.1 and you are ready to decontaminate your samples through GenCoF. Rename your folder accordingly. If you would like to build your own reference database(in case your genome isn't located on Bowtie2's website), you can use bowtie2-build within GenCoF to build a database.
+If downloading reference genomes from the site https://support.illumina.com/sequencing/sequencing_software/igenome.html click on the build you would like to download from.  Once it is downloaded, open it and unpack it according the file type downloaded (ie. through an archive manager by double clicking on the file or via the command line with 'tar xvf filename.tar', 'unzip filename.zip', 'gunzip filename.gz'...). Once done find the 'Bowtie2Index' folder within the reference folder and move the contents of that folder (the .fa file isn't necessary) to the folder path GenCoF-master/Bowtie2/bowtie2-2.3.4.1 and you are ready to decontaminate your samples through GenCoF. Rename your folder accordingly. If you would like to build your own reference database(in case your genome isn't located on Illumina's website), you can use bowtie2-build within GenCoF to build a database.
 
-## Output
+## Output and Output Files
 
-Program specific output:
+All text output(ie. errors, warnings, or summary statistics) will be output to the bottom of the current application. The user may need to scroll to see it.
+
+Program specific output files:
 * Sickle and Prinseq: Output a single file of fastq or fasta format (whichever specified).
 * Split: Outputs the amount of files specified in the program as input.
 * Bowtie2: Outputs two files: one file that contains reads mapped to the reference database and one file that contains reads unmapped to the reference database.

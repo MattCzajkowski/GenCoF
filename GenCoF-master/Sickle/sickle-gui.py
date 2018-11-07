@@ -129,8 +129,10 @@ class App(Frame):
         self.SE_PE.grid(row=x, column=0, padx=5, pady=5)
         Label(
             self.frame,
-            text="Single-end or paired-end sequence trimming",
+            text="""Single-end or paired-end sequence trimming. Adjust input sequences before running program
+such that they are of the same read length.""",
             relief=FLAT,
+            justify=LEFT,
             bg="white").grid(
                 row=x, column=1, padx=5, pady=5, sticky="w")
         x += 1
@@ -138,8 +140,8 @@ class App(Frame):
         self.var_qual = StringVar()
         self.var_qual.set("Pick Quality Type")
         self.Qual = OptionMenu(self.frame, self.var_qual,
-                               "Solexa                ", "Illumina",
-                               "Sanger").grid(
+                               "Solexa/Illumina-1.0      ", "Illumina-1.5",
+                               "Sanger/Illumina-1.8").grid(
                                    row=x, column=0, padx=5, pady=5)
         Label(
             self.frame,
@@ -185,7 +187,7 @@ class App(Frame):
         self.label_reverse.grid_remove()
 
         self.var_options = StringVar()
-        self.var_options.set("Display Options")
+        self.var_options.set("Hide      			")
         self.options = OptionMenu(
             self.frame,
             self.var_options,
@@ -195,7 +197,7 @@ class App(Frame):
         self.options.grid(row=x, column=0, padx=5, pady=5)
         Label(
             self.frame,
-            text="Pick Options To Change Or Leave As Default",
+            text="Display or Hide Extra Quality Filtering Options",
             relief=FLAT,
             bg="white").grid(
                 row=x, column=1, padx=5, pady=5, sticky="w")
@@ -719,4 +721,5 @@ if __name__ == "__main__":
     root.wm_title("SICKLE")
     root.geometry('975x575')
     App(root).pack(side="top", fill="both", expand=True)
+    root.update_idletasks()
     root.mainloop()

@@ -2,6 +2,10 @@ import shlex
 import subprocess
 import os
 import sys
+import urllib.request
+import tarfile
+import time
+from shutil import rmtree
 from tkinter import filedialog
 from tkinter import *
 
@@ -34,6 +38,9 @@ from tkinter import *
 ##
 ## browse_file_input1 - Lets user choose a file and puts the file path in a
 ## variable
+##
+## download_file - Downloads the human genome(GRCh38) reference Bowtie2 file from
+## Illumina's online repository.
 ##
 ## onFrameConfigure - Creates a scrollbar 
 # 
@@ -109,12 +116,31 @@ for reference files to download, as creating reference files from scratch can be
                 row=x, column=0, columnspan=10, padx=5, pady=5, sticky="we")
         x += 1
 
+        self.download = Button(
+            self.frame,
+            text="Download Human Genome",
+            command=self.download_file,
+            width=20)
+        self.download.grid(row=x, column=0, padx=5, pady=5)
+        self.label_download = Label(
+            self.frame,
+            text="""Download Human Genome: Download the reference Bowtie2 genome GRCh38 from NCBI
+(https://support.illumina.com/sequencing/sequencing_software/igenome.html).
+No further Bowtie2-build work needed after downloading, the reference 
+genome will be created as the folder 'hg' in the correct directory for decontamination.
+This may take longer than 20 minutes depending on CPU speed""",
+            relief=FLAT,
+            justify=LEFT,
+            bg="white")
+        self.label_download.grid(row=x, column=1, padx=5, pady=5, sticky="w")
+        x += 1
+
         self.var_filename = ''
         self.browse_file = Button(
             self.frame,
             text="Browse",
             command=self.browse_file_input1,
-            width=15)
+            width=20)
         self.browse_file.grid(row=x, column=0, padx=5, pady=5)
         self.label_filename = Label(
             self.frame,
@@ -164,7 +190,7 @@ for reference files to download, as creating reference files from scratch can be
         else:
             globstring += self.var_filename + " "
 
-        if (self.var_out_file.get() == "Output Filename"
+        if (self.var_out_file.get() == "Output Files Basename"
                 or self.var_out_file.get() == ""):
             globstring += "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/" + "hg"
         else:
@@ -225,11 +251,58 @@ for reference files to download, as creating reference files from scratch can be
     def onFrameConfigure(self, event):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
         return
+    
+    def download_file(self):
+        self.err_message.config(text="Downloading....\nThis may take a while", font="Times 18")
+        self.update()
+        time.sleep(1)
+        url = "ftp://igenome:G3nom3s4u@ussd-ftp.illumina.com/Homo_sapiens/NCBI/GRCh38/Homo_sapiens_NCBI_GRCh38.tar.gz"
+        fname = "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg.tar.gz"
+        urllib.request.urlretrieve(url, fname)
+        
+        self.err_message.config(text="Download Complete\nRetreiving Bowtie2 Reference Files...\nThis may take a while", font="Times 18")
+        self.update()
+        
+        if (fname.endswith("tar.gz")):
+            with tarfile.open(fname, "r:gz") as tar:
+                subdir_and_files = [
+                tarinfo for tarinfo in tar.getmembers()
+                if tarinfo.name.startswith("Homo_sapiens/NCBI/GRCh38/Sequence/Bowtie2Index")
+                ]
+                tar.extractall(members=subdir_and_files, path="./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg")
+            
+            src = "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg/Homo_sapiens/NCBI/GRCh38/Sequence/Bowtie2Index/"
+            dst = "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/"
+            
+
+            os.system("mv"+ " " + src + "genome.1.bt2" + " " + dst)
+            os.system("mv"+ " " + src + "genome.2.bt2" + " " + dst)
+            os.system("mv"+ " " + src + "genome.3.bt2" + " " + dst)
+            os.system("mv"+ " " + src + "genome.4.bt2" + " " + dst)
+            os.system("mv"+ " " + src + "genome.rev.1.bt2" + " " + dst)
+            os.system("mv"+ " " + src + "genome.rev.2.bt2" + " " + dst)
+            time.sleep(3)
+            
+            rmtree('./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg')
+            os.remove("./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg.tar.gz")
+            os.rename("./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/genome.1.bt2", "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg.1.bt2")
+            os.rename("./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/genome.2.bt2", "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg.2.bt2")
+            os.rename("./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/genome.3.bt2", "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg.3.bt2")
+            os.rename("./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/genome.4.bt2", "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg.4.bt2")
+            os.rename("./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/genome.rev.1.bt2", "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg.rev.1.bt2")
+            os.rename("./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/genome.rev.2.bt2", "./GenCoF-master/Bowtie2/bowtie2-2.3.4.1/hg.rev.2.bt2")
+            self.err_message.config(text="File Extracted Successfully", font="Times 18")
+            self.update()
+        
+        else:
+            self.err_message.config(text="Error Extracting File", font="Times 18")
+            self.update()
+
 
 
 if __name__ == "__main__":
     root = Tk()
     root.wm_title("BOWTIE2 BUILD")
-    root.geometry('900x300')
+    root.geometry('900x500')
     App(root).pack(side="top", fill="both", expand=True)
     root.mainloop()
