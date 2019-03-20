@@ -67,3 +67,6 @@ The program Split outputs files to where the input file was. All other programs 
 When the error of ""GenCoF(Mac)" is damaged and can't be opened. You should move it to the Trash" comes up, security preferences need to be changed. You can fix this error by going to the apple in the upper left and selecting "Security Preferences". After that, go to "Security and Privacy" and click the lock in the bottom right. You may be prompted with a password. After that select the button "Allow apps from: unidentified developers" and reclick the lock button. After that just reopen the app by double clicking on GenCoF.
 
 Avoid changing names of files that have been downloaded as this will cause problems for the programs running.
+
+## Publications
+1. GenCoF: a graphical user interface to rapidly remove human genome contaminants from metagenomic datasets. Czajkowski MD, Vance DP, Frese SA, Casaburi G. https://doi.org/10.1093/bioinformatics/bty963
